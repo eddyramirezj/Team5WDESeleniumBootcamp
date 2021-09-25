@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+
 public class MySQLConnection {
 
     public static Connection connect = null;
@@ -16,15 +17,19 @@ public class MySQLConnection {
     public static PreparedStatement ps = null;
     public static ResultSet resultSet = null;
 
-    public static Properties loadProperties() throws IOException {
+    public final String ABSOLUTE_PATH = System.getProperty("user.dir");
+    public final String PROPERTIES_RELATIVE_PATH = "/src/main/resources/secret.properties";
+    private final String PROP_FILE_PATH = ABSOLUTE_PATH + PROPERTIES_RELATIVE_PATH;
+
+    public Properties loadProperties() throws IOException {
         Properties prop = new Properties();
-        InputStream ism = new FileInputStream("src/secret.properties");
+        InputStream ism = new FileInputStream(PROP_FILE_PATH);
         prop.load(ism);
         ism.close();
         return prop;
     }
 
-    public static Connection connectToSqlDatabase() throws IOException, SQLException, ClassNotFoundException {
+    public Connection connectToSqlDatabase() throws IOException, SQLException, ClassNotFoundException {
         Properties prop = loadProperties();
         String driverClass = prop.getProperty("MYSQLJDBC.driver");
         String url = prop.getProperty("MYSQLJDBC.url");
@@ -163,4 +168,65 @@ public class MySQLConnection {
             e.printStackTrace();
         }
     }
+
+    public List<String> readFromSqlTable(String table){
+
+        List<String> list = new ArrayList<>();
+
+        try {
+            Connection conn = connectToSqlDatabase();
+            String query = "SELECT * FROM " + table + ";";
+
+            Statement st = conn.createStatement();
+
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                String product = rs.getString("products");
+                list.add(product);
+            }
+            st.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public String[][] getDBValues(String table) throws SQLException, IOException, ClassNotFoundException {
+
+        String[][] data = new String[0][0];
+        try {
+            Connection conn = connectToSqlDatabase();
+            String query = "SELECT * FROM " + table + ";";
+
+            Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            ResultSet rs = st.executeQuery(query);
+            rs.last();
+
+            int rows = rs.getRow();
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columns = rsmd.getColumnCount();
+
+            data = new String[rows][columns];
+
+            int i = 0;
+            rs.beforeFirst();
+            while (rs.next()) {
+                for (int j = 0; j < columns; j++) {
+                    data[i][j] = rs.getString(j + 1);
+                }
+                i++;
+            }
+
+            st.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+
+
 }

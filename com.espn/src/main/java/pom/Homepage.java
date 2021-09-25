@@ -19,11 +19,11 @@ public class Homepage extends BaseClass {
     @FindBy (css = "//ul[@class='tools focused']//a[@tref='/members/v3_1/login']")
     public WebElement loginButton;
 
-//    public void navigateToLogin() {
-//        waitForElementToBeClickable(dropDownMenuLoginButton);
-//        clickOnElement(dropDownMenuLoginButton);
-//        waitForElementToBeVisible(loginButton);
-//        clickOnElement(loginButton);
-//    }
+    public void navigateToLogin() {
+        waitForElementToBeClickable(dropDownMenuLoginButton);
+        clickOnElement(dropDownMenuLoginButton);
+        waitForElementToBeVisible(loginButton);
+        clickOnElement(loginButton);
+    }
 
 }
