@@ -4,6 +4,7 @@ import base.BaseClass;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebElement;
 import pom.Homepage;
+import pom.WashingtonPage;
 
 
 public class TestBase extends BaseClass {
@@ -11,6 +12,13 @@ public class TestBase extends BaseClass {
     public Homepage getHomepage() {
         return new Homepage();
     }
+
+    public WashingtonPage getWashingtonPage() {
+        return new WashingtonPage();
+    }
+
+
+
 
 
     public boolean isElementPresent(WebElement element) {

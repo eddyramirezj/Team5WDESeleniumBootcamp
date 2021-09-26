@@ -1,9 +1,21 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="Functional" verbose="1" >
+    <listeners>
+        <listener class-name="utilsPNT1001.CustomListeners"></listener>
+        <listener class-name="utilsPNT1001.TestngReporter"></listener>
+
+    </listeners>
+
     <test name="Homepage" >
         <classes>
             <class name="testPom.TestHomepage"/>
+        </classes>
+    </test>
+
+    <test name="WashingtonPage" >
+        <classes>
+            <class name="testPom.TestWashingtonPage"/>
         </classes>
     </test>
 

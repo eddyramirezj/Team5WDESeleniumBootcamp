@@ -12,8 +12,10 @@ import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.annotations.*;
 import reporting.ExtentManager;
 import reporting.ExtentTestManager;
@@ -24,6 +26,7 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class BaseClass {
 
@@ -88,6 +91,7 @@ public class BaseClass {
         driver.get(url);
         driver.manage().deleteAllCookies();
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
 //    @AfterMethod
@@ -274,5 +278,55 @@ public class BaseClass {
         }
     }
 
+
+    /******************    The below helper methods were added by PNT-1001     *******************************/
+
+
+    public void log(String info){
+        Reporter.log(info);
+        System.out.println(info);
+    }
+    public boolean isPresent(WebElement element) {
+        boolean flag = false;
+        log("waiting for element to be visible");
+        waitForElementToBeVisible(element);
+
+        try {
+            if (element.isDisplayed()) {
+                flag = true;
+                System.out.println("Element found: " + element);
+            }
+        } catch (ElementNotVisibleException e) {
+            e.printStackTrace();
+            System.out.println("Element NOT found: " + element);
+        }
+        return flag;
+    }
+
+
+
+    public void verifyEquals(String actualValue, String expectedValue){
+log("verifying if the ACTUAL result and EXPECTED results are equal.");
+        try {
+            Assert.assertEquals(actualValue, expectedValue );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void verifyTrue(boolean conditionToBeTested){
+
+        try {
+            Assert.assertTrue(conditionToBeTested, "The condition is false.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log("The boolean condition was tested and found to be false.");
+        }
+
+    }
+
+
+    /******************    The above helper methods were added by PNT-1001     *******************************/
 
 }
