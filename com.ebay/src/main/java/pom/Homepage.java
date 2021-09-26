@@ -20,12 +20,21 @@ public class Homepage extends BaseClass {
     @FindBy (css = "input.btn.btn-prim.gh-spr")
     public WebElement searchButton;
 
+    @FindBy (xpath = "//a[text()='register']")
+    public WebElement headerRegisterButton;
+
     public void searchOnSearchBar(String value) {
-        waitForElementToBeClickable(searchBar);
+        fluentWaitForElementToBeClickable(searchBar);
         sendKeysToInput(searchBar, value);
-        waitForElementToBeClickable(searchButton);
+        fluentWaitForElementToBeClickable(searchButton);
         clickOnElement(searchButton);
     }
 
+    public void navigateToRegisterAccountFromHomepage() {
+        fluentWaitForElementToBeClickable(headerRegisterButton);
+        clickOnElement(headerRegisterButton);
 
-}
+        }
+    }
+
+

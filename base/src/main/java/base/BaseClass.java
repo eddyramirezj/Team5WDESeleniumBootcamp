@@ -9,9 +9,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -21,6 +19,7 @@ import reporting.ExtentTestManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
@@ -29,6 +28,7 @@ public class BaseClass {
 
     public static WebDriver driver;
     public static WebDriverWait webDriverWait;
+    public static FluentWait fluentWait;
     public static ExtentReports extent;
 
     public static DataReader dataReader;
@@ -83,7 +83,12 @@ public class BaseClass {
     @BeforeMethod (alwaysRun = true)
     public void driverSetup(@Optional("chrome") String browser, String url) {
         driver = initDriver(browser);
-        webDriverWait = new WebDriverWait(driver, 10);
+        webDriverWait = new WebDriverWait(driver, 5);
+
+        fluentWait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(5))
+                .pollingEvery(Duration.ofSeconds(1))
+                .ignoring(StaleElementReferenceException.class);
 
         driver.get(url);
         driver.manage().deleteAllCookies();
@@ -230,9 +235,23 @@ public class BaseClass {
 
     }
 
+    public void selectOptionFromDropDownMenuByIndex(WebElement element, int index) {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(element));
+        Select select = new Select(element);
+        select.selectByIndex(index);
+    }
     /*
     SYNC Methods
      */
+
+    public void fluentWaitForElementToBeVisible(WebElement element) {
+        try {
+            fluentWait.until(ExpectedConditions.visibilityOf(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void waitForElementToBeVisible(WebElement element) {
         try {
             webDriverWait.until(ExpectedConditions.visibilityOf(element));
@@ -244,6 +263,14 @@ public class BaseClass {
     public void waitForElementToContainText(WebElement element, String text) {
         try {
             webDriverWait.until(ExpectedConditions.textToBePresentInElement(element, text));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void fluentWaitForElementToBeClickable(WebElement element) {
+        try {
+            fluentWait.until(ExpectedConditions.elementToBeClickable(element));
         } catch (Exception e) {
             e.printStackTrace();
         }

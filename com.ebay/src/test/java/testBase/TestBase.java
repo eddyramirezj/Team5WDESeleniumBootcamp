@@ -4,12 +4,22 @@ import base.BaseClass;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebElement;
 import pom.Homepage;
+import pom.RegisterPage;
+import pom.ResultsPage;
 
 
 public class TestBase extends BaseClass {
 
     public Homepage getHomepage() {
         return new Homepage();
+    }
+
+    public ResultsPage getResultsPage() {
+        return new ResultsPage();
+    }
+
+    public RegisterPage getRegisterPage() {
+        return new RegisterPage();
     }
 
 
