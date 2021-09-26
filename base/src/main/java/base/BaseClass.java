@@ -288,7 +288,7 @@ public class BaseClass {
     }
     public boolean isPresent(WebElement element) {
         boolean flag = false;
-        log("waiting for element to be visible");
+        log("waiting for element " + element.toString() +"to be visible");
         waitForElementToBeVisible(element);
 
         try {
