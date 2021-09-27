@@ -26,14 +26,18 @@ public class Homepage extends BaseClass {
 
     /****************************  The following locators and Methods were added by PNT-1001 ********************/
 
-    //    @FindBy (css = "    body > div:nth-child(7) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > main:nth-child(1) > div:nth-child(1) > div:nth-child(1) > main:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1) > span:nth-child(2) > span:nth-child(1) > b:nth-child(1)\n")
-    @FindBy (css = "div[class='_1tfpcfm'] div[class='_16xcv07v'] span[class='_expepa']")
+
+   /* @FindBy (css = "a[href='/washington-dc/stays']")
+    public WebElement washingtonLink;*/
+
+    @FindBy (xpath = "//*[contains(text(), 'Washington')]")
     public WebElement washingtonLink;
 
 
     public WashingtonPage goToWashingtonPage(){
-
+        waitForElementToBeClickable(washingtonLink);
         clickOnElement(washingtonLink);
+        System.out.println("SUCCESSFULLY landed to WashingtonPage.");
         return new WashingtonPage();
     }
 
@@ -41,6 +45,8 @@ public class Homepage extends BaseClass {
         isPresent(washingtonLink);
 
     }
+
+
 /****************************  The above locators were added by PNT-1001 ****************************/
 
 

@@ -6,12 +6,12 @@
         <listener class-name="utilsPNT1001.TestngReporter"></listener>
 
     </listeners>
-
+<!--
     <test name="Homepage" >
         <classes>
             <class name="testPom.TestHomepage"/>
         </classes>
-    </test>
+    </test>-->
 
     <test name="WashingtonPage" >
         <classes>

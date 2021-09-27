@@ -9,14 +9,14 @@ import pom.WashingtonPage;
 
 public class TestBase extends BaseClass {
 
-    public Homepage getHomepage() {
+   /* public Homepage getHomepage() {
         return new Homepage();
     }
-
     public WashingtonPage getWashingtonPage() {
         return new WashingtonPage();
-    }
-
+    }*/
+        public Homepage homepage = new Homepage();
+        public WashingtonPage washingtonPage = new WashingtonPage();
 
 
 

@@ -318,10 +318,10 @@ log("verifying if the ACTUAL result and EXPECTED results are equal.");
     public void verifyTrue(boolean conditionToBeTested){
 
         try {
-            Assert.assertTrue(conditionToBeTested, "The condition is false.");
+            Assert.assertTrue(conditionToBeTested);
         } catch (Exception e) {
             e.printStackTrace();
-            log("The boolean condition was tested and found to be false.");
+            log("The boolean condition was found false.");
         }
 
     }

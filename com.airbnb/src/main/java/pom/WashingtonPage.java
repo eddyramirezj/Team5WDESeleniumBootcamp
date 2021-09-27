@@ -1,6 +1,8 @@
 package pom;
 
 import base.BaseClass;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class WashingtonPage extends BaseClass {
@@ -11,21 +13,33 @@ public class WashingtonPage extends BaseClass {
 
     }
 
+/***************************************  LOCATORS  ***********************************/
+    @FindBy(css = "h1._14i3z6h")
+    public WebElement stayWashingtonLink;
+
+    @FindBy(id = "field-guide-toggle")
+    public WebElement fieldGuideButton;
 
 
-public String expectedTitle = "Washington.Stays.Airbnb";
-public String expectedTitleContains = "Washington";
-public String actualTitle(){ return driver.getTitle();}
+/***************************************  PAGE METHODS  ***********************************/
 
-public boolean verifyTitleIsCorrect(){
+public String expectedTitle = "Airbnb: Vacation Rentals, Cabins, Beach Houses, Unique Homes & Experiences";
+
+public String expectedTitleContaining = "Airbnb: Vacation Rentals";
+public String actualTitle(){ return driver.getTitle().toString();}
+
+public boolean isTitleCorrect(){
     return actualTitle().equalsIgnoreCase(expectedTitle);
 }
 
-    public boolean verifyTitleIsCorrect_(){
-        return actualTitle().contains(expectedTitleContains);
+    public boolean isTitleCorrect_(){
+        return actualTitle().contains(expectedTitleContaining);
     }
 
+public void unitTest(){
+    clickOnElement(fieldGuideButton);
 
+}
 
 
 

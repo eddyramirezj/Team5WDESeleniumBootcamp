@@ -1,6 +1,6 @@
 package testPom;
 
-import org.testng.annotations.Listeners;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pom.Homepage;
 import pom.WashingtonPage;
@@ -10,36 +10,47 @@ import testBase.TestBase;
 
 
 public class TestWashingtonPage extends TestBase {
-    WashingtonPage washingtonPage = getWashingtonPage();
-    Homepage homepage = getHomepage();
 
 
 
+    @Test(enabled = false)
+    public void testNavigateToWashingtonPage() throws InterruptedException {
+        scrollJS(300);
+        Homepage homepage = new Homepage();
+        homepage.goToWashingtonPage();
+//        Thread.sleep(3000);
+    }
 
+    @Test(enabled = false)
     public void testTitleIsCorrect() throws InterruptedException {
-    Thread.sleep(4000);
-    scrollJS(300);
-    Thread.sleep(4000);
+        Homepage homepage = new Homepage();
+        homepage.goToWashingtonPage();
 
-    homepage.goToWashingtonPage();
-   verifyTrue(washingtonPage.verifyTitleIsCorrect_());
+        WashingtonPage washingtonPage = new WashingtonPage();
+        Assert.assertTrue(washingtonPage.isTitleCorrect());
 
 }
 
-    @Test(alwaysRun = true)
-    public void testIfElementPresent() throws InterruptedException {
-        Thread.sleep(3000);
-        scrollJS(300);
-        Thread.sleep(3000);
-        homepage.testIfLinkIsPresent();
+    @Test(enabled = false)
+    public void testPrintTitle() throws InterruptedException {
+        Homepage homepage = new Homepage();
+        homepage.goToWashingtonPage();
 
-//        isPresent(homepage.washingtonLink);
-//homepage.testIfLinkIsPresent();
-     /*   homepage.goToWashingtonPage();
-        verifyTrue(washingtonPage.verifyTitleIsCorrect_());*/
+        WashingtonPage washingtonPage = new WashingtonPage();
+        verifyTrue(washingtonPage.isTitleCorrect_());
 
     }
 
+
+    @Test(enabled = true)
+    public void testClickOnButton() throws InterruptedException {
+        Homepage homepage = new Homepage();
+        homepage.goToWashingtonPage();
+
+        WashingtonPage washingtonPage = new WashingtonPage();
+        washingtonPage.unitTest();
+        Thread.sleep(2000);
+    }
 
 
 
