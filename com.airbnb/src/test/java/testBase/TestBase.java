@@ -4,6 +4,7 @@ import base.BaseClass;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebElement;
 import pom.Homepage;
+import pom.StaysPage;
 
 
 public class TestBase extends BaseClass {
@@ -12,6 +13,9 @@ public class TestBase extends BaseClass {
         return new Homepage();
     }
 
+    public StaysPage getStaysPage() {
+        return new StaysPage();
+    }
 
     public boolean isElementPresent(WebElement element) {
         boolean flag = false;

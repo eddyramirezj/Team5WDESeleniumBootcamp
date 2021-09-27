@@ -227,6 +227,22 @@ public class MySQLConnection {
         return data;
     }
 
+    public void insertResultsIntoDB(String tableName, String columnName1, String columnName2, String product, String results) {
+        try {
+            connectToSqlDatabase();
+            ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName1 + ", " + columnName2 + ") VALUES ('" +
+                    product + "', '" + results + "')");
+            ps.executeUpdate();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 }

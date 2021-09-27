@@ -1,21 +1,25 @@
 package dataProviders;
 
 
+import base.DataReader;
 import base.MySQLConnection;
 import org.testng.annotations.DataProvider;
+import testBase.TestBase;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class TestDataProviders {
+public class TestDataProviders extends TestBase {
 
 
-    @DataProvider(name="MySQLDataProvider")
-    public Object[][] feedDP() throws SQLException, IOException, ClassNotFoundException {
-        MySQLConnection mySQL = new MySQLConnection();
-        String[][] data = mySQL.getDBValues("seleniumbootcamp.test_data3");
-        Object[][] testData = (Object[][]) data;
+    private static String path = System.getProperty("user.dir") + "/src/test/resources/testData/placesToStayTestData.xlsx";
+
+    @DataProvider(name="LocationsDataProvider")
+    public Object[][] locationsDataProvider() throws IOException {
+        dataReader = new DataReader();
+        String sheetName = "placesToGo";
+
+        Object[][] testData = dataReader.fileReaderArrayStringArraysXSSF(path, sheetName);
         return testData;
     }
-
 }
