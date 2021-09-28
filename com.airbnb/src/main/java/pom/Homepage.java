@@ -54,6 +54,12 @@ public class Homepage extends BaseClass {
     @FindBy (css="button._7hhhl3[data-testid='stepper-adults-increase-button']")
     public WebElement increaseAdultsButton;
 
+    @FindBy (css="button._7hhhl3[data-testid='stepper-adults-increase-button'][disabled]")
+    public WebElement increaseAdultsButtonDisabled;
+
+    @FindBy (css="span[data-testid='stepper-adults-value']")
+    public WebElement numOfAdultsSelected;
+
     @FindBy (css="button._1mzhry13")
     public WebElement searchButton;
 
@@ -145,6 +151,89 @@ public class Homepage extends BaseClass {
         clickOnElement(navigateToWashingtonRentalsPageLink);
         webDriverWait.until(ExpectedConditions.urlMatches("https://www.airbnb.com/washington-dc/stays"));
     }
+
+    public Homepage sendLocationToLocationTextBox(String location) {
+        try {
+            waitForElementToBeClickable(locationComboBox);
+            sendKeysToInput(locationComboBox, location);
+            waitForElementToBeVisible(selectFirstOptionFromLocationComboBox);
+            clickOnElement(selectFirstOptionFromLocationComboBox);
+
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+        return new Homepage();
+    }
+
+        public Homepage selectFlexibleDates() {
+            try {
+                List<WebElement> checkInCalendarExpanded = driver.findElements(By.cssSelector("div._1akb2mdw[aria-expanded='false']"));
+
+                while (checkInCalendarExpanded.size() > 1) {
+                    waitForElementToBeClickable(addCheckInDateButton);
+                    clickOnElement(addCheckInDateButton);
+                }
+
+                waitForElementToBeClickable(imFlexibleButton);
+                clickOnElement(imFlexibleButton);
+                waitForElementToBeClickable(flexibleDatesButton);
+                clickOnElement(flexibleDatesButton);
+
+            }
+
+            catch (NoSuchElementException e) {
+                e.printStackTrace();
+            }
+
+            return new Homepage();
+
+        }
+
+
+    public Homepage addGuestsByOne() {
+        try {
+
+            List<WebElement> addGuestsButtonDisabled = driver.findElements(By.cssSelector("button._7hhhl3[data-testid='stepper-adults-increase-button'][disabled]"));
+
+            if (addGuestsButtonDisabled.size() < 1) {
+                fluentWaitForElementToBeClickable(addGuestsButton);
+                clickOnElement(addGuestsButton);
+                waitForElementToBeClickable(increaseAdultsButton);
+                clickOnElement(increaseAdultsButton);
+                clickOnElement(addGuestsButton);
+            }
+            else
+            {
+                System.out.println("MAXIMUM GUESTS ALLOWANCE REACHED");
+            }
+        }
+
+        catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+        return new Homepage();
+    }
+
+    public Homepage clickOnSearchButton() {
+        try {
+
+            waitForElementToBeVisible(searchButton);
+            clickOnElement(searchButton);
+            webDriverWait.until(ExpectedConditions.invisibilityOf(searchButton));
+
+        }
+
+        catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+        return new Homepage();
+    }
+
+
+
+
+
+
 
 /*
     HELPER METHODS
