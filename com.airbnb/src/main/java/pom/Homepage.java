@@ -57,8 +57,26 @@ public class Homepage extends BaseClass {
     @FindBy (css="button._7hhhl3[data-testid='stepper-adults-increase-button'][disabled]")
     public WebElement increaseAdultsButtonDisabled;
 
+    @FindBy (css="button._7hhhl3[data-testid='stepper-children-increase-button']")
+    public WebElement increaseChildrenButton;
+
+    @FindBy (css="button._7hhhl3[data-testid='stepper-children-increase-button'][disabled]")
+    public WebElement increaseChildrenButtonDisabled;
+
+    @FindBy (css="button._7hhhl3[data-testid='stepper-infants-increase-button']")
+    public WebElement increaseInfantsButton;
+
+    @FindBy (css="button._7hhhl3[data-testid='stepper-infants-increase-button'][disabled]")
+    public WebElement increaseInfantsButtonDisabled;
+
     @FindBy (css="span[data-testid='stepper-adults-value']")
     public WebElement numOfAdultsSelected;
+
+    @FindBy (css="span[data-testid='stepper-children-value']")
+    public WebElement numOfChildrenSelected;
+
+    @FindBy (css="span[data-testid='stepper-infants-value']")
+    public WebElement numOfInfantsSelected;
 
     @FindBy (css="button._1mzhry13")
     public WebElement searchButton;
@@ -156,10 +174,11 @@ public class Homepage extends BaseClass {
         try {
             waitForElementToBeClickable(locationComboBox);
             sendKeysToInput(locationComboBox, location);
+            Thread.sleep(1000);
             waitForElementToBeVisible(selectFirstOptionFromLocationComboBox);
             clickOnElement(selectFirstOptionFromLocationComboBox);
 
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | InterruptedException e) {
             e.printStackTrace();
         }
         return new Homepage();
@@ -172,6 +191,7 @@ public class Homepage extends BaseClass {
                 while (checkInCalendarExpanded.size() > 1) {
                     waitForElementToBeClickable(addCheckInDateButton);
                     clickOnElement(addCheckInDateButton);
+                    checkInCalendarExpanded = driver.findElements(By.cssSelector("div._1akb2mdw[aria-expanded='false']"));
                 }
 
                 waitForElementToBeClickable(imFlexibleButton);
@@ -190,12 +210,13 @@ public class Homepage extends BaseClass {
         }
 
 
-    public Homepage addGuestsByOne() {
+    public Homepage addAdultsByOne() {
+
         try {
 
-            List<WebElement> addGuestsButtonDisabled = driver.findElements(By.cssSelector("button._7hhhl3[data-testid='stepper-adults-increase-button'][disabled]"));
+            List<WebElement> addAdultsButtonDisabled = driver.findElements(By.cssSelector("button._7hhhl3[data-testid='stepper-adults-increase-button'][disabled]"));
 
-            if (addGuestsButtonDisabled.size() < 1) {
+            if (addAdultsButtonDisabled.size() < 1) {
                 fluentWaitForElementToBeClickable(addGuestsButton);
                 clickOnElement(addGuestsButton);
                 waitForElementToBeClickable(increaseAdultsButton);
@@ -204,7 +225,55 @@ public class Homepage extends BaseClass {
             }
             else
             {
-                System.out.println("MAXIMUM GUESTS ALLOWANCE REACHED");
+                System.out.println("MAXIMUM ADULTS ALLOWANCE REACHED");
+            }
+        }
+
+        catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+        return new Homepage();
+    }
+
+    public Homepage addChildrenByOne() {
+        try {
+
+            List<WebElement> addChildrenButtonDisabled = driver.findElements(By.cssSelector("button._7hhhl3[data-testid='stepper-children-increase-button'][disabled]"));
+
+            if (addChildrenButtonDisabled.size() < 1) {
+                fluentWaitForElementToBeClickable(addGuestsButton);
+                clickOnElement(addGuestsButton);
+                waitForElementToBeClickable(increaseChildrenButton);
+                clickOnElement(increaseChildrenButton);
+                clickOnElement(addGuestsButton);
+            }
+            else
+            {
+                System.out.println("MAXIMUM CHILDREN ALLOWANCE REACHED");
+            }
+        }
+
+        catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+        return new Homepage();
+    }
+
+    public Homepage addInfantsByOne() {
+        try {
+
+            List<WebElement> addInfantsButtonDisabled = driver.findElements(By.cssSelector("button._7hhhl3[data-testid='stepper-infants-increase-button'][disabled]"));
+
+            if (addInfantsButtonDisabled.size() < 1) {
+                fluentWaitForElementToBeClickable(addGuestsButton);
+                clickOnElement(addGuestsButton);
+                waitForElementToBeClickable(increaseInfantsButton);
+                clickOnElement(increaseInfantsButton);
+                clickOnElement(addGuestsButton);
+            }
+            else
+            {
+                System.out.println("MAXIMUM INFANTS ALLOWANCE REACHED");
             }
         }
 
@@ -219,9 +288,20 @@ public class Homepage extends BaseClass {
 
             waitForElementToBeVisible(searchButton);
             clickOnElement(searchButton);
-            webDriverWait.until(ExpectedConditions.invisibilityOf(searchButton));
 
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
         }
+        return new Homepage();
+    }
+        public Homepage clickOnSearchButtonFor(String location) {
+            try {
+
+                waitForElementToBeVisible(searchButton);
+                clickOnElement(searchButton);
+                webDriverWait.until(ExpectedConditions.titleContains(location));
+
+            }
 
         catch (NoSuchElementException e) {
             e.printStackTrace();
