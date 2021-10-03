@@ -6,18 +6,19 @@
         <listener class-name="utilsPNT1001.TestngReporter"></listener>
 
     </listeners>
-<!--
     <test name="Homepage" >
         <classes>
-            <class name="testPom.TestHomepage"/>
-        </classes>
-    </test>-->
+<!--            <class name="testPom.TestHomepage"/>-->
+            <class name="testPom.TestUnitTester"/>
 
-    <test name="WashingtonPage" >
+        </classes>
+    </test>
+
+ <!--   <test name="WashingtonPage" >
         <classes>
             <class name="testPom.TestWashingtonPage"/>
         </classes>
-    </test>
+    </test>-->
 
     <parameter name="url" value="https://www.airbnb.com/"/>
     <parameter name="browserName" value="chrome"/>

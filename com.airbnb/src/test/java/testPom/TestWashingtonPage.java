@@ -42,7 +42,7 @@ public class TestWashingtonPage extends TestBase {
     }
 
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void testClickOnButton() throws InterruptedException {
         Homepage homepage = new Homepage();
         homepage.goToWashingtonPage();

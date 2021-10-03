@@ -9,6 +9,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,9 +23,12 @@ import reporting.ExtentTestManager;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +46,7 @@ public class BaseClass {
     public final String PROPERTIES_RELATIVE_PATH = "/src/main/resources/secret.properties";
     private final String PROP_FILE_PATH = ABSOLUTE_PATH + PROPERTIES_RELATIVE_PATH;
 
-    @BeforeSuite (alwaysRun = true)
+    @BeforeSuite(alwaysRun = true)
     public void beforeSuiteExtentSetup(ITestContext context) {
         ExtentManager.setOutputDirectory(context);
         extent = ExtentManager.getInstance();
@@ -59,7 +63,7 @@ public class BaseClass {
 //        System.out.println("\n\t***" + methodName + "***\n");
 //    }
 
-    @BeforeSuite (alwaysRun = true)
+    @BeforeSuite(alwaysRun = true)
     public void setUp() {
         try {
             properties = new Properties();
@@ -82,8 +86,8 @@ public class BaseClass {
         }
     }
 
-    @Parameters ({"browser", "url"})
-    @BeforeMethod (alwaysRun = true)
+    @Parameters({"browser", "url"})
+    @BeforeMethod(alwaysRun = true)
     public void driverSetup(@Optional("chrome") String browser, String url) {
         driver = initDriver(browser);
         webDriverWait = new WebDriverWait(driver, 10);
@@ -122,7 +126,7 @@ public class BaseClass {
         driver.close();
     }
 
-    @AfterSuite (alwaysRun = true)
+    @AfterSuite(alwaysRun = true)
     private void afterSuiteTearDown() {
         driver.quit();
         extent.close();
@@ -188,7 +192,7 @@ public class BaseClass {
 
     public void sendKeysToInput(WebElement element, String keys) {
         webDriverWait.until(ExpectedConditions.visibilityOf(element));
-
+        element.clear();
         element.sendKeys(keys);
     }
 
@@ -214,17 +218,17 @@ public class BaseClass {
     }
 
     public void clickJScript(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);
     }
 
     public void createJSAlert(String alertText) {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("alert('" + alertText + "');");
     }
 
     public void scrollJS(int numOfPixelsToScroll) {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0," + numOfPixelsToScroll + ")");
     }
 
@@ -280,15 +284,85 @@ public class BaseClass {
 
 
     /******************    The below helper methods were added by PNT-1001     *******************************/
+    public static final String absPath = System.getProperty("user.dir");
+
+    /*public String airbnbORPath = absPath + "\\src\\test\\resources\\airbnbRepo.properties";
+    public Properties airbnbOR = loadProp(airbnbORPath);*/
+
+    public String expediaORPath = absPath + "\\src\\test\\resources\\ExpdiaRepo.properties";
+    public Properties expediaOR = loadProp(expediaORPath);
+
+    public Properties loadProp(String filePathWithExtension) {
+        Properties prop = new Properties();
+        try {
+            InputStream ism = new FileInputStream(filePathWithExtension);
+            prop.load(ism);
+            ism.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return prop;
+    }
+
+    public String getMonthName(int monthIndex){
+        String monthName=null;
+
+       switch (monthIndex) {
+           case 1:
+               monthName = "January";
+               break;
+           case 2:
+               monthName = "February";
+               break;
+           case 3:
+               monthName = "March";
+               break;
+           case 4:
+               monthName = "April";
+               break;
+           case 5:
+               monthName = "May";
+               break;
+           case 6:
+               monthName = "June";
+               break;
+           case 7:
+               monthName = "July";
+               break;
+           case 8:
+               monthName = "August";
+               break;
+           case 9:
+               monthName = "September";
+               break;
+           case 10:
+               monthName = "October";
+               break;
+           case 11:
+               monthName = "November";
+               break;
+           case 12:
+               monthName = "December";
+               break;
+
+       }
+       return monthName;
+    }
 
 
-    public void log(String info){
+
+
+
+
+
+    public void log(String info) {
         Reporter.log(info);
         System.out.println(info);
     }
+
     public boolean isPresent(WebElement element) {
         boolean flag = false;
-        log("waiting for element " + element.toString() +"to be visible");
+        log("waiting for element " + element.toString() + "to be visible");
         waitForElementToBeVisible(element);
 
         try {
@@ -304,18 +378,17 @@ public class BaseClass {
     }
 
 
-
-    public void verifyEquals(String actualValue, String expectedValue){
-log("verifying if the ACTUAL result and EXPECTED results are equal.");
+    public void verifyEquals(String actualValue, String expectedValue) {
+        log("verifying if the ACTUAL result and EXPECTED results are equal.");
         try {
-            Assert.assertEquals(actualValue, expectedValue );
+            Assert.assertEquals(actualValue, expectedValue);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void verifyTrue(boolean conditionToBeTested){
+    public void verifyTrue(boolean conditionToBeTested) {
 
         try {
             Assert.assertTrue(conditionToBeTested);
@@ -326,7 +399,125 @@ log("verifying if the ACTUAL result and EXPECTED results are equal.");
 
     }
 
+    public static final String getContainsTextXpath(String tagName, String textToSearch) {
+        String xpath = "//" + tagName + "[contains(text(), '" + textToSearch + "')]";
+        return xpath;
+    }
 
-    /******************    The above helper methods were added by PNT-1001     *******************************/
+    public static final String getContainsAttributeXpath(String tagName, String attribute , String attributeValue) {
+        String xpath = "//" + tagName + "[contains(@" + attribute + ", '" + attributeValue + "')]";
+
+        return xpath;
+    }
+    public static final String getAttributeXpath(String tagName, String attribute , String attributeValue) {
+        String xpath = "//" + tagName + "[@" +attribute + "= '" + attributeValue + "']";
+        return xpath;
+    }
+
+
+    public WebElement getDynamicElement(String dynamicXpath) {
+        return driver.findElement(By.xpath(dynamicXpath));
+    }
+
+
+
+    public static void selectLinkDate(WebElement calenderFocus, String dateToBeSelected) {
+        try {
+
+            List<WebElement> columns = calenderFocus.findElements(By.tagName("li"));
+
+            for (WebElement cell : columns) {
+                if (cell.getText().equals(dateToBeSelected)) {
+                    cell.findElement(By.linkText(dateToBeSelected)).click();
+                    break;
+                }
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+    }
+    public  WebElement getElement(String locator) {
+        WebElement element = null;
+ /*       try {
+            waitForElementToBeVisible(getElement(locator));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+        if (locator.endsWith("_CSS")) {
+            element = driver.findElement(By.cssSelector(locator));
+        } else if (locator.endsWith("_XPATH")) {
+            element = driver.findElement(By.xpath(locator));
+        } else if (locator.endsWith("_ID")) {
+            element = driver.findElement(By.id(locator));
+        }else if (locator.endsWith("_CLASSNAME")) {
+            element = driver.findElement(By.id(locator));
+        }else if (locator.endsWith("_NAME")) {
+            element = driver.findElement(By.id(locator));
+        }else if (locator.endsWith("_LINKTEXT")) {
+            element = driver.findElement(By.id(locator));
+        }else if (locator.endsWith("_PARTIALTEXT")) {
+            element = driver.findElement(By.id(locator));
+        }else
+            throw new NoSuchElementException("No Such Element : " + locator);
+        return element;
+
+    }
+    public List<WebElement> getElements(String sLocator) {
+        try {
+            waitForElementToBeVisible(getElement(sLocator));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (sLocator.endsWith("_CSS")) {
+            return driver.findElements(By.cssSelector(sLocator));
+        } else if (sLocator.endsWith("_XPATH")) {
+            return driver.findElements(By.xpath(sLocator));
+        } else if (sLocator.endsWith("_ID")) {
+            return driver.findElements(By.id(sLocator));
+        } else if (sLocator.endsWith("_CLASSNAME")) {
+            return driver.findElements(By.className(sLocator));
+        } else if (sLocator.endsWith("_NAME")) {
+            return driver.findElements(By.name(sLocator));
+        } else if (sLocator.endsWith("_LINKTEXT")) {
+            return driver.findElements(By.linkText(sLocator));
+        } else if (sLocator.endsWith("_PARTIALTEXT")) {
+            return driver.findElements(By.partialLinkText(sLocator));
+        } else
+            throw new NoSuchElementException("No Such Element : " + sLocator);
+    }
+
+    public  List<WebElement> getCalanderItems(String calanderLocator,
+                                                    String tagName) {
+        List<WebElement> listOfElements = null;
+        try {
+//            listOfElements = getElement(calanderLocator).findElements(By.tagName(optionName));
+            listOfElements = getElement(calanderLocator).findElements(By.tagName(tagName));
+            if (listOfElements.size() != 0)
+                System.out.println("No of Dropdown list element found : " + listOfElements.size());
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+        return listOfElements;
+    }
+
+    public void selectFromElementList(List<WebElement> list, String valueToBeSelected){
+
+        for(WebElement x :list){
+
+            if(x.getText().equalsIgnoreCase(valueToBeSelected))
+                x.click();
+
+        }
+
+    }
+
+
+
+
+        /******************    The above helper methods were added by PNT-1001     *******************************/
+
 
 }
