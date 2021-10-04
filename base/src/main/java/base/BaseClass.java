@@ -3,6 +3,12 @@ package base;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.compress.archivers.dump.InvalidFormatException;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -16,8 +22,7 @@ import org.testng.annotations.*;
 import reporting.ExtentManager;
 import reporting.ExtentTestManager;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.Calendar;
@@ -39,7 +44,8 @@ public class BaseClass {
     public final String PROPERTIES_RELATIVE_PATH = "/src/main/resources/secret.properties";
     private final String PROP_FILE_PATH = ABSOLUTE_PATH + PROPERTIES_RELATIVE_PATH;
 
-    @BeforeSuite (alwaysRun = true)
+
+    @BeforeSuite(alwaysRun = true)
     public void beforeSuiteExtentSetup(ITestContext context) {
         ExtentManager.setOutputDirectory(context);
         extent = ExtentManager.getInstance();
@@ -56,7 +62,7 @@ public class BaseClass {
 //        System.out.println("\n\t***" + methodName + "***\n");
 //    }
 
-    @BeforeSuite (alwaysRun = true)
+    @BeforeSuite(alwaysRun = true)
     public void setUp() {
         try {
             properties = new Properties();
@@ -79,8 +85,8 @@ public class BaseClass {
         }
     }
 
-    @Parameters ({"browser", "url"})
-    @BeforeMethod (alwaysRun = true)
+    @Parameters({"browser", "url"})
+    @BeforeMethod(alwaysRun = true)
     public void driverSetup(@Optional("chrome") String browser, String url) {
         driver = initDriver(browser);
         webDriverWait = new WebDriverWait(driver, 5);
@@ -123,7 +129,7 @@ public class BaseClass {
         driver.close();
     }
 
-    @AfterSuite (alwaysRun = true)
+    @AfterSuite(alwaysRun = true)
     private void afterSuiteTearDown() {
         driver.quit();
         extent.close();
@@ -215,17 +221,17 @@ public class BaseClass {
     }
 
     public void clickJScript(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);
     }
 
     public void createJSAlert(String alertText) {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("alert('" + alertText + "');");
     }
 
     public void scrollJS(int numOfPixelsToScroll) {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0," + numOfPixelsToScroll + ")");
     }
 
@@ -240,6 +246,81 @@ public class BaseClass {
         Select select = new Select(element);
         select.selectByIndex(index);
     }
+
+    public void writeIntoXSSFExcelFile(String sheetPath, String args, int row) {
+//        File file = new File(sheetPath);
+
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        XSSFSheet sheet = workbook.createSheet();
+
+        sheet.createRow(row).createCell(0).setCellValue(args);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(sheetPath);
+            workbook.write(fos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void writeIntoHSSFExcelFile(String sheetPath, String args, int row) {
+//        File file = new File(sheetPath);
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+
+        HSSFSheet sheet = workbook.createSheet();
+
+        sheet.createRow(row).createCell(0).setCellValue(args);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(sheetPath);
+            workbook.write(fos);
+            workbook.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void writeIntoExcelFile(String excelPath, String args) {
+
+        try {
+            FileInputStream inputStream = new FileInputStream(new File(excelPath));
+            Workbook workbook = WorkbookFactory.create(inputStream);
+
+            Sheet sheet = workbook.getSheetAt(0);
+
+            int rowCount = sheet.getLastRowNum();
+
+            Row row = sheet.createRow(++rowCount);
+
+            int columnCount = 0;
+
+            Cell cell = row.createCell(columnCount);
+            cell.setCellValue(rowCount);
+
+            cell = row.createCell(++columnCount);
+
+            cell.setCellValue((String) args);
+            inputStream.close();
+            FileOutputStream outputStream = new FileOutputStream(excelPath);
+            workbook.write(outputStream);
+            workbook.close();
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
     /*
     SYNC Methods
      */

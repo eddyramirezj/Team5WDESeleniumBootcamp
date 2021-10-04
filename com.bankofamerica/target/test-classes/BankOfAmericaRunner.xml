@@ -3,7 +3,7 @@
 <suite name="Functional" verbose="1" >
     <test name="Homepage" >
         <classes>
-            <!--            <class name="testPom.TestHomepage"/>-->
+                        <class name="testPom.TestHomepage"/>
         </classes>
     </test>
 

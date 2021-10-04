@@ -25,7 +25,7 @@ public class TestHomepage extends TestBase {
 
     }
 
-    @Test (dataProvider = "LocationsDataProvider", dataProviderClass = dataProviders.TestDataProviders.class, enabled = false)
+    @Test (dataProvider = "LocationsDataProvider", dataProviderClass = dataProviders.TestDataProviders.class, enabled = true)
     public void testSearchForAPlaceToGoWithSpecificDates(String location, String checkinDate, String checkoutDate) throws InterruptedException {
 
         getHomepage().searchForAPlaceToGoWithSpecificDates(location, checkinDate, checkoutDate);
@@ -99,7 +99,7 @@ public class TestHomepage extends TestBase {
 
     }
 
-    @Test (dataProvider = "LocationsDataProvider", dataProviderClass = dataProviders.TestDataProviders.class, enabled = true)
+    @Test (dataProvider = "LocationsDataProvider", dataProviderClass = dataProviders.TestDataProviders.class, enabled = false)
     public void testMaximumNumberOfChildrenToAdd(String location, String checkinDate, String checkoutDate) {
         Homepage homepage = new Homepage();
 
@@ -123,11 +123,11 @@ public class TestHomepage extends TestBase {
 
         String actualResults = homepage.numOfChildrenSelected.getText().toString();
         String expectedResults = "5";
-
+        ExpectedConditions.urlContains("Stirng").toString();
         Assert.assertEquals(actualResults, expectedResults);
 
     }
-    @Test (dataProvider = "LocationsDataProvider", dataProviderClass = dataProviders.TestDataProviders.class, enabled = true)
+    @Test (dataProvider = "LocationsDataProvider", dataProviderClass = dataProviders.TestDataProviders.class, enabled = false)
     public void testMaximumNumberOfInfantsToAdd(String location, String checkinDate, String checkoutDate) {
         Homepage homepage = new Homepage();
 
