@@ -21,6 +21,7 @@ public class Homepage extends BaseClass {
         PageFactory.initElements(driver, this);
     }
 
+
     @FindBy (css="a[href='/washington-dc/stays']")
     public WebElement navigateToWashingtonRentalsPageLink;
 
