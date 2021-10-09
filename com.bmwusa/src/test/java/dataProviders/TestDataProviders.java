@@ -49,6 +49,31 @@ public class TestDataProviders extends TestBase {
         return testData;
     }
 
+    @DataProvider(name="previouslyUsedPasswordTestData")
+    public Object[][] previouslyUsedPasswordTestDataDP() throws IOException {
+        dataReader = new DataReader();
+        String sheetName = "used_password";
 
+        Object[][] testData = dataReader.fileReaderArrayStringArraysXSSF(path, sheetName);
+        return testData;
+    }
+
+    @DataProvider(name="validLoginTestData")
+    public Object[][] validLoginTestDataDP() throws IOException {
+        dataReader = new DataReader();
+        String sheetName = "valid_login";
+
+        Object[][] testData = dataReader.fileReaderArrayStringArraysXSSF(path, sheetName);
+        return testData;
+    }
+
+    @DataProvider(name="invalidLoginTestData")
+    public Object[][] invalidLoginTestDataDP() throws IOException {
+        dataReader = new DataReader();
+        String sheetName = "invalid_login";
+
+        Object[][] testData = dataReader.fileReaderArrayStringArraysXSSF(path, sheetName);
+        return testData;
+    }
 
 }

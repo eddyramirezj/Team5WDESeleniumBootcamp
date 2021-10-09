@@ -3,7 +3,7 @@
 <suite name="Functional" verbose="1" >
     <test name="Homepage" >
         <classes>
-                        <class name="testPom.TestRegister"/>
+                        <class name="testPom.TestContactUs"/>
         </classes>
     </test>
 

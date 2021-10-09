@@ -11,6 +11,24 @@ public class Register extends BaseClass {
         PageFactory.initElements(driver, this);
     }
 
+    @FindBy (css="input[name='emailAddress']")
+    public WebElement loginInputEmail;
+
+    @FindBy (css="input[name='password']")
+    public WebElement loginInputPassword;
+
+    @FindBy (css="button#loginBtn")
+    public WebElement loginBtn;
+
+    @FindBy (css="button#loginBtn[disabled]")
+    public WebElement loginBtnDisabled;
+
+    @FindBy (xpath="//p[contains(text(), ' The information you entered does not match our records')]")
+    public WebElement infoNotMatchWarning;
+
+    @FindBy (css="a#accountsBtn")
+    public WebElement myAccountTabBtn;
+
     @FindBy (css="button#registerNowBtn")
     public WebElement registerBtn;
 
@@ -38,8 +56,26 @@ public class Register extends BaseClass {
     @FindBy (css="button#registerBtn[disabled]")
     public WebElement registerNowBtnDisabled;
 
-    @FindBy (css="//h1[text()=' Thank You for Registering ']")
+    @FindBy (xpath="//h1[text()=' Thank You for Registering ']")
     public WebElement registrationConfirmationMsg;
+
+    @FindBy (xpath="//p[contains(text(), 'This email address has already been registered')]")
+    public WebElement emailAlreadyRegisteredWarning;
+
+    @FindBy (css="button#forgotPasswordBtn")
+    public WebElement forgotPasswordLink;
+
+    @FindBy (css="input#forgotPasswordEmailAddressInput")
+    public WebElement forgotPasswordEmail;
+
+    @FindBy (css="button#resetPasswordBtn")
+    public WebElement forgotPasswordContinueBtn;
+
+    @FindBy (xpath="//p[contains(text(), 'We have sent you an email with a link to reset your password')]")
+    public WebElement forgotPasswordConfirmationEmailMsg;
+
+    @FindBy (css="a[title='Contact Us']")
+    public WebElement contactUsLink;
 
     public Register clickOnRegisterAccount() {
         waitForElementToBeClickable(registerBtn);
@@ -95,6 +131,45 @@ public class Register extends BaseClass {
         clickOnElement(registerNowBtn);
         waitForElementToBeVisible(registrationConfirmationMsg);
 
+    }
+
+    public Register sendKeysToEmailLoginField(String value) {
+        waitForElementToBeVisible(loginInputEmail);
+        sendKeysToInput(loginInputEmail, value);
+        waitForElementToBeVisible(loginInputPassword);
+        return new Register();
+    }
+
+    public Register sendKeysToPasswordLoginField(String value) {
+        waitForElementToBeVisible(loginInputPassword);
+        sendKeysToInput(loginInputPassword, value);
+        waitForElementToBeVisible(loginBtn);
+        return new Register();
+    }
+
+    public void clickOnLoginBtn() {
+        waitForElementToBeClickable(loginBtn);
+        clickOnElement(loginBtn);
+        waitForElementToBeVisible(myAccountTabBtn);
+
+    }
+
+    public void forgotPasswordFromLogin(String value) {
+        waitForElementToBeClickable(forgotPasswordLink);
+        clickOnElement(forgotPasswordLink);
+        waitForElementToBeVisible(forgotPasswordEmail);
+        sendKeysToInput(forgotPasswordEmail, value);
+        waitForElementToBeClickable(forgotPasswordContinueBtn);
+        clickOnElement(forgotPasswordContinueBtn);
+        waitForElementToBeVisible(forgotPasswordConfirmationEmailMsg);
+
+    }
+
+    public ContactUs navigateToContactUs() {
+        waitForElementToBeClickable(contactUsLink);
+        scrollJS(1000);
+        clickJScript(contactUsLink);
+        return new ContactUs();
     }
 
 }
