@@ -217,6 +217,11 @@ public class BaseClass {
         }
     }
 
+    public void pressEnter(WebElement element){
+
+        element.sendKeys(Keys.ENTER);
+    }
+
     public void clickJScript(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);
@@ -285,11 +290,13 @@ public class BaseClass {
 
     /******************    The below helper methods were added by PNT-1001     *******************************/
     public static final String absPath = System.getProperty("user.dir");
+    //    C:\Users\nahid\IdeaProjects\Team5WDESeleniumBootcamp\com.expedia
+
 
     /*public String airbnbORPath = absPath + "\\src\\test\\resources\\airbnbRepo.properties";
     public Properties airbnbOR = loadProp(airbnbORPath);*/
-
-    public String expediaORPath = absPath + "\\src\\test\\resources\\ExpdiaRepo.properties";
+//    C:\Users\nahid\IdeaProjects\Team5WDESeleniumBootcamp\com.expedia\src\test\resources\ExpediaRepo.properties
+    public String expediaORPath = absPath + "\\src\\test\\resources\\ExpediaRepo.properties";
     public Properties expediaOR = loadProp(expediaORPath);
 
     public Properties loadProp(String filePathWithExtension) {
@@ -303,6 +310,32 @@ public class BaseClass {
         }
         return prop;
     }
+
+
+    public void clickOn(By locator, WebDriver driver, int timeout)
+    {
+        final WebDriverWait wait = new WebDriverWait(driver, timeout);
+        wait.until(ExpectedConditions.refreshed(
+                ExpectedConditions.elementToBeClickable(locator)));
+        driver.findElement(locator).click();
+    }
+
+    public void clickOn(WebElement element, WebDriver driver, int timeout)
+    {
+        final WebDriverWait wait = new WebDriverWait(driver, timeout);
+        wait.until(ExpectedConditions.refreshed(
+                ExpectedConditions.elementToBeClickable(element)));
+        element.click();
+    }
+
+    public void waitForStaleElement(WebElement element, WebDriver driver, int timeout)
+    {
+        final WebDriverWait wait = new WebDriverWait(driver, timeout);
+        wait.until(ExpectedConditions.refreshed(
+                ExpectedConditions.elementToBeClickable(element)));
+
+    }
+
 
     public String getMonthName(int monthIndex){
         String monthName=null;
@@ -358,6 +391,48 @@ public class BaseClass {
     public void log(String info) {
         Reporter.log(info);
         System.out.println(info);
+    }
+
+    public static void waitForElementPresence(String locator) {
+
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+
+        boolean flag = false;
+        if(locator.contains("/"))
+            flag = true;
+        if(driver.findElements(By.id(locator)).size() >= 1){
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(locator)));
+            return;
+        }else if(driver.findElements(By.name(locator)).size() >= 1 ){
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.name(locator)));
+            return;
+        }else if(!flag && driver.findElements(By.cssSelector(locator)).size() >= 1){
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(locator)));
+            return;
+        }else if(driver.findElements(By.xpath(locator)).size() >= 1){
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
+            return;
+        }else
+            throw new NoSuchElementException("Element Not Found : " + locator);
+
+    }
+    public static boolean isElementPresent(String locator) {
+        boolean status = false;
+
+        boolean flag = false;
+        if(locator.contains("/"))
+            flag = true;
+        if(driver.findElements(By.id(locator)).size() >= 1){
+            status = true;
+        }else if(driver.findElements(By.name(locator)).size() >= 1 ){
+            status = true;
+        }else if(!flag && driver.findElements(By.cssSelector(locator)).size() >= 1){
+            status = true;
+        }else if(driver.findElements(By.xpath(locator)).size() >= 1){
+            status = true;
+        }else
+            status = false;
+        return status;
     }
 
     public boolean isPresent(WebElement element) {

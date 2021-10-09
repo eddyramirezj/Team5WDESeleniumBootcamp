@@ -2,7 +2,6 @@ package pom;
 
 import base.BaseClass;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -17,14 +16,15 @@ public class Homepage extends BaseClass {
     }
 
 
-
     @FindBy(xpath = "//button[@id='d1-btn']")
-    public WebElement openDatePicker;
+    public WebElement checkInButton;
 
-    @FindBy(xpath = "//div[@data-stid='date-picker-month']")
+    //    @FindBy(xpath = "//div[@data-stid='date-picker-month']")
+//    @FindBy(xpath = "//div[contains(@data-stid,'date-picker-month']")
+    @FindBy(xpath = "//div[@class='uitk-calendar']/child::div[2]/div")
     public WebElement datePickerMonth;
 
-//    @FindBy(xpath = "//h2[@class='uitk-date-picker-month-name uitk-type-medium']")
+    //    @FindBy(xpath = "//h2[@class='uitk-date-picker-month-name uitk-type-medium']")
     @FindBy(xpath = "//div[@data-stid='date-picker-month']/h2")
     public List<WebElement> calendarMonthName;
 
@@ -40,201 +40,498 @@ public class Homepage extends BaseClass {
     @FindBy(xpath = "//button[@data-stid='date-picker-paging']")
     public WebElement nextPreviousButton;
 
-//    uitk-date-picker-month-name uitk-type-medium
-//      uitk-date-picker-month-name uitk-type-medium
+    @FindBy(xpath = "//div[@class='uitk-calendar']/child::div[1]/button[1]")
+    public WebElement previousButton;
 
-public void selectDate(){
-    String calendarDate;
-    String checkInDate = expediaOR.getProperty("checkInDate");
-    String[] checkInDate_ = checkInDate.split("/");
-
-    String monthToBeSelected = getMonthName(Integer.parseInt(checkInDate_[0]));
-    String dateToBeSelected = checkInDate_[1];
-    String yearToBeSelected = checkInDate_[2];
-
-    clickOnElement(openDatePicker);
+    @FindBy(xpath = "//div[@class='uitk-calendar']/child::div[1]/button[2]")
+    public WebElement nextButton;
 
 
+    @FindBy(xpath = "//div[@class='uitk-calendar']/descendant::h2[position()=1]")
+    public WebElement firstMonthYearTitle;
 
-    List<WebElement> rows,cols, nextPreviousBtn, allMonths;
+    @FindBy(xpath = "//div[@class='uitk-calendar']/child::div[2]/div[1]/table")
+    public WebElement firstTable;
 
-    nextPreviousBtn = yearMonthTitle.findElements(By.tagName("button"));
-    int noOfButtons = nextPreviousBtn.size();
-    System.out.println("no of buttons: " + noOfButtons);
+    @FindBy(xpath = "//div[@class='uitk-calendar']/child::div[2]/div[1]/table/tbody/tr/td")
+    public WebElement firstTableDates;
+
+    @FindBy(xpath = "//button[@aria-label='Going to']")
+    public WebElement goingToButton;
+
+    @FindBy(xpath = "//input[@id='location-field-destination']")
+    public WebElement goingToTextFiled;
+
+    @FindBy(xpath = "//div[@class='uitk-flex uitk-date-picker-menu-footer']/button")
+    public WebElement doneButton;
+
+    @FindBy(xpath = "//button[@data-testid='submit-button']")
+    public WebElement searchButton;
+
+    @FindBy(xpath = "//div[@class='uitk-error-summary']/h3")
+    public WebElement errorMessage;
 
 
 
-    allMonths = monthMenu.findElements(By.tagName("h2"));
-    int noOfMonths = allMonths.size();
-    System.out.println("no of months: " + noOfMonths);
-    System.out.println(allMonths.get(1).getText().toString());
-    System.out.println(allMonths.get(0).getText().toString());
+    List<WebElement> dates;
 
 
-    int iYearDifference = Integer.parseInt(yearToBeSelected)- Calendar.getInstance().get(Calendar.YEAR);
 
 
-    if(iYearDifference!=0){
-
-        //if you have to move next year
-
-        if(iYearDifference>0){
-
-            for(int i=0;i< iYearDifference;i++){
-
-                System.out.println("Year Difference :"+i);
-
-                nextPreviousBtn.get(1).click();
-
-            }
-
-        }
-
-        //if you have to move previous year
-
-        else if(iYearDifference<0){
-
-            for(int i=0;i< (iYearDifference*(-1));i++){
-
-                System.out.println("Year Difference :"+i);
-
-                nextPreviousBtn.get(0).click();
-
-            }
-
-        }
-
+    public String readDayOfTheDate(String mm_dd_yyyy){
+        String date = expediaOR.getProperty(mm_dd_yyyy);
+        String[] date_ = date.split("/");
+//        System.out.println(date_[1]);
+        return date_[1];
     }
-
-  /*  while (!allMonths.get(0).getText().toString().contains(yearToBeSelected)) {
-        nextPreviousBtn.get(1).click();
-    }*/
-    while(!allMonths.get(0).getText().toString().contains(monthToBeSelected)) {
-
-
-        try {
-            clickOnElement(nextPreviousBtn.get(1));
-            System.out.println("clicked on next button");
-        } catch (StaleElementReferenceException e) {
-            e.printStackTrace();
-        }
+    public String readYearOfTheDate(String mm_dd_yyyy){
+        String date = expediaOR.getProperty(mm_dd_yyyy);
+        String[] date_ = date.split("/");
+//        System.out.println(date_[2]);
+        return date_[2];
     }
+    public String readMonthOfTheDate(String mm_dd_yyyy){
+        String date = expediaOR.getProperty(mm_dd_yyyy);
+        String[] date_ = date.split("/");
 
-    try {
-        Thread.sleep(5000);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
+//        System.out.println(getMonthName(Integer.parseInt(date_[0])));
+        return getMonthName(Integer.parseInt(date_[0]));
     }
 
 
-    waitForElementToBeVisible(datePickerMonth);
-    rows=datePickerMonth.findElements(By.tagName("tr"));
-//    System.out.println("size of rows in Date Picker Month: " + rows.size());
-
-    for (int i = 1; i < rows.size(); i++)
-    {
-//        cols=rows.get(i).findElements(By.tagName("td"));
-        cols=rows.get(i).findElements(By.tagName("button"));
 
 
-//        System.out.println("Row# or Week#: " + i + " and Days/column size: " + cols.size());
+    public void pickCalendarDate(WebElement monthYearTitle, String mm_dd_yyyy){
+        String calendarDate;
 
-        for (int k = 0; k < cols.size(); k++)
-        {
-            calendarDate=cols.get(k).getAttribute("data-day");
+        String[] checkInDate_ = mm_dd_yyyy.split("/");
 
+        String monthToBeSelected = getMonthName(Integer.parseInt(checkInDate_[0]));
+        String dateToBeSelected = checkInDate_[1];
+        String yearToBeSelected = checkInDate_[2];
 
-
-//            System.out.println("date found" +calendarDate);
-
-            if (calendarDate.equals(dateToBeSelected))
-            {
-//                System.out.println(calendarDate);
-                cols.get(k).click();
+//        clickOnElement(pickDateButton);
 
 
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        List<WebElement> rows, cols;
+
+
+
+        while (!monthYearTitle.getText().toString().contains(yearToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check in year");
+        }
+
+        while (!monthYearTitle.getText().toString().contains(monthToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check in month");
+        }
+
+        waitForStaleElement(monthYearTitle, driver, 5);
+        waitForElementToBeVisible(monthYearTitle);
+
+
+        waitForElementToBeVisible(datePickerMonth);
+        waitForStaleElement(datePickerMonth, driver, 5);
+
+        rows = datePickerMonth.findElements(By.tagName("tr"));
+
+
+
+        for (int i = 1; i < rows.size(); i++) {
+            cols = rows.get(i).findElements(By.tagName("button"));
+
+
+
+            for (int k = 0; k < cols.size(); k++) {
+                calendarDate = cols.get(k).getAttribute("data-day");
+
+                if (calendarDate.equals(dateToBeSelected)) {
+
+                    clickOn(cols.get(k), driver, 5);
+
+                    System.out.println("date " + calendarDate + " was selected successfully");
+                    break;
+
                 }
 
+            }
+        }
+    }
 
-                System.out.println("date " + calendarDate + " was selected successfully");
-                break;
+    public void selectDate4() {
+
+        clickOnElement(goingToButton);
+        sendKeysToInput(goingToTextFiled, "Dhaka (DAC - Shahjalal Intl.)");
+        pressEnter(goingToTextFiled);
+
+        clickOnElement(checkInButton);
+
+        pickCalendarDate(firstMonthYearTitle,expediaOR.getProperty("checkInDate"));
+        pickCalendarDate(firstMonthYearTitle,expediaOR.getProperty("checkOutDate"));
+
+
+        clickOnElement(doneButton);
+        System.out.println("Clicked on done button");
+        clickOnElement(searchButton);
+        System.out.println("Clicked on search button");
+
+
+
+    }
+
+
+    public void selectDate3() {
+
+        String calendarDate;
+        String checkInDate = expediaOR.getProperty("checkInDate");
+        String[] checkInDate_ = checkInDate.split("/");
+
+        String monthToBeSelected = getMonthName(Integer.parseInt(checkInDate_[0]));
+        String dateToBeSelected = checkInDate_[1];
+        String yearToBeSelected = checkInDate_[2];
+
+
+        String checkOutDate = expediaOR.getProperty("checkOutDate");
+        String[] checkOutDate_ = checkOutDate.split("/");
+
+        String checkOutMonthToBeSelected = getMonthName(Integer.parseInt(checkOutDate_[0]));
+        String checkOutDateToBeSelected = checkOutDate_[1];
+        String checkOutYearToBeSelected = checkOutDate_[2];
+
+        clickOnElement(goingToButton);
+sendKeysToInput(goingToTextFiled, "Dhaka (DAC - Shahjalal Intl.)");
+pressEnter(goingToTextFiled);
+
+        clickOnElement(checkInButton);
+
+
+        List<WebElement> rows, cols, rows2, cols2;
+
+
+
+        while (!firstMonthYearTitle.getText().toString().contains(yearToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check in year");
+        }
+
+        while (!firstMonthYearTitle.getText().toString().contains(monthToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check in month");
+        }
+
+        waitForStaleElement(firstMonthYearTitle, driver, 5);
+        waitForElementToBeVisible(firstMonthYearTitle);
+
+        System.out.println(firstMonthYearTitle.getText().toString());
+
+        waitForElementToBeVisible(datePickerMonth);
+
+        waitForStaleElement(datePickerMonth, driver, 5);
+
+        rows = datePickerMonth.findElements(By.tagName("tr"));
+
+
+
+        for (int i = 1; i < rows.size(); i++) {
+            cols = rows.get(i).findElements(By.tagName("button"));
+
+
+
+            for (int k = 0; k < cols.size(); k++) {
+                calendarDate = cols.get(k).getAttribute("data-day");
+
+                if (calendarDate.equals(dateToBeSelected)) {
+
+                    clickOn(cols.get(k), driver, 5);
+
+                    System.out.println("date " + calendarDate + " was selected successfully");
+                    break;
+
+                }
 
             }
-
         }
+
+
+
+        while (!firstMonthYearTitle.getText().toString().contains(checkOutYearToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check out year");
+        }
+
+        while (!firstMonthYearTitle.getText().toString().contains(checkOutMonthToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check out month");
+        }
+
+        waitForStaleElement(firstMonthYearTitle, driver, 5);
+        waitForElementToBeVisible(firstMonthYearTitle);
+
+        System.out.println(firstMonthYearTitle.getText().toString());
+
+        waitForElementToBeVisible(datePickerMonth);
+
+        waitForStaleElement(datePickerMonth, driver, 5);
+
+        rows2 = datePickerMonth.findElements(By.tagName("tr"));
+
+
+
+        for (int i = 1; i < rows2.size(); i++) {
+            cols2 = rows2.get(i).findElements(By.tagName("button"));
+
+
+
+            for (int k = 0; k < cols2.size(); k++) {
+                calendarDate = cols2.get(k).getAttribute("data-day");
+
+                if (calendarDate.equals(checkOutDateToBeSelected)) {
+
+                    clickOn(cols2.get(k), driver, 5);
+
+                    System.out.println("date " + calendarDate + " was selected successfully");
+                    break;
+
+                }
+
+            }
+        }
+
+        clickOnElement(doneButton);
+        System.out.println("Clicked on done button");
+clickOnElement(searchButton);
+        System.out.println("Clicked on search button");
+
+
+
     }
 
 
 
-}
+
+    public void selectDate2() {
+
+        String calendarDate;
+        String checkInDate = expediaOR.getProperty("checkInDate");
+        String[] checkInDate_ = checkInDate.split("/");
+
+        String monthToBeSelected = getMonthName(Integer.parseInt(checkInDate_[0]));
+        String dateToBeSelected = checkInDate_[1];
+        String yearToBeSelected = checkInDate_[2];
+
+
+        String checkOutDate = expediaOR.getProperty("checkOutDate");
+        String[] checkOutDate_ = checkOutDate.split("/");
+
+        String checkOutMonthToBeSelected = getMonthName(Integer.parseInt(checkOutDate_[0]));
+        String checkOutDateToBeSelected = checkOutDate_[1];
+        String checkOutYearToBeSelected = checkOutDate_[2];
+
+
+        clickOnElement(checkInButton);
+
+
+        List<WebElement> rows, cols, rows2, cols2;
 
 
 
+        while (!firstMonthYearTitle.getText().toString().contains(yearToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check in year");
+        }
+
+        while (!firstMonthYearTitle.getText().toString().contains(monthToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check in month");
+        }
+
+        waitForStaleElement(firstMonthYearTitle, driver, 5);
+        waitForElementToBeVisible(firstMonthYearTitle);
+
+        System.out.println(firstMonthYearTitle.getText().toString());
+
+        waitForElementToBeVisible(datePickerMonth);
+
+        waitForStaleElement(datePickerMonth, driver, 5);
+
+        rows = datePickerMonth.findElements(By.tagName("tr"));
 
 
 
-/*
-public void selectDate(){
-String calendarDate;
-String checkInDate = expediaOR.getProperty("checkInDate");
-String[] checkInDate_ = checkInDate.split("/");
-
-String dateToBeSelected = checkInDate_[1];
-String monthToBeSelected = checkInDate_[0];
-String yearToBeSelected = checkInDate_[2];
-
-    clickOnElement(openDatePicker);
+        for (int i = 1; i < rows.size(); i++) {
+            cols = rows.get(i).findElements(By.tagName("button"));
 
 
 
-    List<WebElement> rows,cols;
+            for (int k = 0; k < cols.size(); k++) {
+                calendarDate = cols.get(k).getAttribute("data-day");
 
-    rows=datePickerMonth.findElements(By.tagName("tr"));
-//    System.out.println("size of rows in Date Picker Month: " + rows.size());
+                if (calendarDate.equals(dateToBeSelected)) {
 
-    for (int i = 1; i < rows.size(); i++)
-    {
-//        cols=rows.get(i).findElements(By.tagName("td"));
-        cols=rows.get(i).findElements(By.tagName("button"));
+                    clickOn(cols.get(k), driver, 5);
 
+                    System.out.println("date " + calendarDate + " was selected successfully");
+                    break;
 
-//        System.out.println("Row# or Week#: " + i + " and Days/column size: " + cols.size());
-
-        for (int k = 0; k < cols.size(); k++)
-        {
-            calendarDate=cols.get(k).getAttribute("data-day");
-
-
-
-//            System.out.println("date found" +calendarDate);
-
-            if (calendarDate.equals(dateToBeSelected))
-            {
-//                System.out.println(calendarDate);
-                cols.get(k).click();
-
-
-          *//*      try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*//*
-
-
-                System.out.println("date " + calendarDate + " was selected successfully");
-                break;
+                }
 
             }
-
         }
+
+
+
+        while (!firstMonthYearTitle.getText().toString().contains(checkOutYearToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check out year");
+        }
+
+        while (!firstMonthYearTitle.getText().toString().contains(checkOutMonthToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct check out month");
+        }
+
+        waitForStaleElement(firstMonthYearTitle, driver, 5);
+        waitForElementToBeVisible(firstMonthYearTitle);
+
+        System.out.println(firstMonthYearTitle.getText().toString());
+
+        waitForElementToBeVisible(datePickerMonth);
+
+        waitForStaleElement(datePickerMonth, driver, 5);
+
+        rows2 = datePickerMonth.findElements(By.tagName("tr"));
+
+
+
+        for (int i = 1; i < rows2.size(); i++) {
+            cols2 = rows2.get(i).findElements(By.tagName("button"));
+
+
+
+            for (int k = 0; k < cols2.size(); k++) {
+                calendarDate = cols2.get(k).getAttribute("data-day");
+
+                if (calendarDate.equals(checkOutDateToBeSelected)) {
+
+                    clickOn(cols2.get(k), driver, 5);
+
+                    System.out.println("date " + calendarDate + " was selected successfully");
+                    break;
+
+                }
+
+            }
+        }
+
+
     }
 
 
 
-}*/
+    public void selectDate1() {
+
+        String calendarDate;
+        String checkInDate = expediaOR.getProperty("checkInDate");
+        String[] checkInDate_ = checkInDate.split("/");
+
+        String monthToBeSelected = getMonthName(Integer.parseInt(checkInDate_[0]));
+        String dateToBeSelected = checkInDate_[1];
+        String yearToBeSelected = checkInDate_[2];
+
+        clickOnElement(checkInButton);
+
+
+        List<WebElement> rows, cols;
+
+
+
+        while (!firstMonthYearTitle.getText().toString().contains(yearToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct year");
+        }
+
+        while (!firstMonthYearTitle.getText().toString().contains(monthToBeSelected)) {
+            clickOnElement(nextButton);
+            System.out.println("clicked on next button to select correct month");
+        }
+
+         waitForStaleElement(firstMonthYearTitle, driver, 5);
+        waitForElementToBeVisible(firstMonthYearTitle);
+
+        System.out.println(firstMonthYearTitle.getText().toString());
+
+            waitForElementToBeVisible(datePickerMonth);
+
+        waitForStaleElement(datePickerMonth, driver, 5);
+
+            rows = datePickerMonth.findElements(By.tagName("tr"));
+
+
+
+            for (int i = 1; i < rows.size(); i++) {
+                cols = rows.get(i).findElements(By.tagName("button"));
+
+
+
+                for (int k = 0; k < cols.size(); k++) {
+                    calendarDate = cols.get(k).getAttribute("data-day");
+
+                    if (calendarDate.equals(dateToBeSelected)) {
+
+                    clickOn(cols.get(k), driver, 5);
+
+                        System.out.println("date " + calendarDate + " was selected successfully");
+                        break;
+
+                    }
+
+                }
+            }
+
+
+        }
+
+
+    public void selectDate() {
+        String calendarDate;
+        String checkInDate = expediaOR.getProperty("checkInDate");
+        String[] checkInDate_ = checkInDate.split("/");
+
+        String dateToBeSelected = checkInDate_[1];
+        String monthToBeSelected = checkInDate_[0];
+        String yearToBeSelected = checkInDate_[2];
+
+        clickOnElement(checkInButton);
+        List<WebElement> rows, cols;
+
+        rows = datePickerMonth.findElements(By.tagName("tr"));
+
+        for (int i = 1; i < rows.size(); i++) {
+            cols = rows.get(i).findElements(By.tagName("button"));
+
+            for (int k = 0; k < cols.size(); k++) {
+                calendarDate = cols.get(k).getAttribute("data-day");
+
+                if (calendarDate.equals(dateToBeSelected)) {
+                    cols.get(k).click();
+                    System.out.println("date " + calendarDate + " was selected successfully");
+                    break;
+                }
+            }
+
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
 
 }
