@@ -5,7 +5,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pnt1001Utils.ExcelReader;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class Homepage extends BaseClass {
     public Homepage() {
         PageFactory.initElements(driver, this);
     }
+
 
 
     @FindBy(xpath = "//button[@id='d1-btn']")
@@ -71,35 +74,66 @@ public class Homepage extends BaseClass {
     @FindBy(xpath = "//div[@class='uitk-error-summary']/h3")
     public WebElement errorMessage;
 
+    @FindBy(xpath = "//form[@id='wizard-hotel-pwa-v2-1']/descendant::input[12]")
+    public WebElement addCarCheckbox;
 
+    @FindBy(xpath = "//button[text()='Sign in']")
+    public WebElement signInButton;
+
+    @FindBy(xpath = "//a[text()='Sign in']")
+    public WebElement signInLink;
 
     List<WebElement> dates;
 
+ExcelReader excel = new ExcelReader(expediaExcelPath);
 
-
-
-    public String readDayOfTheDate(String mm_dd_yyyy){
-        String date = expediaOR.getProperty(mm_dd_yyyy);
-        String[] date_ = date.split("/");
-//        System.out.println(date_[1]);
-        return date_[1];
-    }
-    public String readYearOfTheDate(String mm_dd_yyyy){
-        String date = expediaOR.getProperty(mm_dd_yyyy);
-        String[] date_ = date.split("/");
-//        System.out.println(date_[2]);
-        return date_[2];
-    }
-    public String readMonthOfTheDate(String mm_dd_yyyy){
-        String date = expediaOR.getProperty(mm_dd_yyyy);
-        String[] date_ = date.split("/");
-
-//        System.out.println(getMonthName(Integer.parseInt(date_[0])));
-        return getMonthName(Integer.parseInt(date_[0]));
+public void goToSignInpage(){
+    if(signInLink.isDisplayed()) {
+//        clickOnElement(signInLink);
+        clickJScript(signInLink);
+    }else {
+        clickJScript(signInButton);
+        clickJScript(signInLink);
     }
 
+}
+
+    public void getExcelData1(){
+
+        System.out.println(excel.getCellData("expedia",0,1));
+        System.out.println(excel.getCellData("expedia",1,1));
+        System.out.println(excel.getCellData("expedia",2,1));
+
+        System.out.println(excel.getCellData("expedia",0,2));
+        System.out.println(excel.getCellData("expedia",1,2));
+        System.out.println(excel.getCellData("expedia",2,2));
+
+    }
 
 
+    public void staySearchFunction() {
+        addCarCheckbox.click();
+        clickOnElement(goingToButton);
+        sendKeysToInput(goingToTextFiled, excel.getCellData("expedia",0,2));
+        pressEnter(goingToTextFiled);
+
+
+
+        clickOnElement(checkInButton);
+
+        pickCalendarDate(firstMonthYearTitle,excel.getCellData("expedia",1,2));
+        pickCalendarDate(firstMonthYearTitle,excel.getCellData("expedia",2,2));
+
+
+        clickOnElement(doneButton);
+        System.out.println("Clicked on done button");
+
+        clickOnElement(searchButton);
+        System.out.println("Clicked on search button");
+
+
+
+    }
 
     public void pickCalendarDate(WebElement monthYearTitle, String mm_dd_yyyy){
         String calendarDate;

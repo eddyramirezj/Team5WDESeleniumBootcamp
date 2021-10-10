@@ -10,7 +10,26 @@ public class TestHomepage extends TestBase {
 
 
 
-    @Test(enabled = true)
+
+    @Test(enabled = false)
+    public void testReadExcel1(){
+        Homepage homepage = new Homepage();
+        homepage.getExcelData1();
+
+
+    }
+
+    @Test(enabled = false)
+    public void testStaySearchFunction(){
+        Homepage homepage = new Homepage();
+        homepage.staySearchFunction();
+        String errorMsg = homepage.errorMessage.getText();
+        boolean b = errorMsg.contains("error");
+        verifyTrue(b);
+
+    }
+
+    @Test(enabled = false)
     public void testDatePicker5(){
         Homepage homepage = new Homepage();
         homepage.selectDate4();

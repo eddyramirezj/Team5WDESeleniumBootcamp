@@ -4,16 +4,21 @@ import base.BaseClass;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebElement;
 import pom.Homepage;
+import pom.SignInpage;
 
 
 public class TestBase extends BaseClass {
 
 //    C:\Users\nahid\IdeaProjects\Team5WDESeleniumBootcamp\com.expedia
 
+
+
 //    public Homepage getHomepage() {
 //        return new Homepage();
 //    }
 public Homepage homepage = new Homepage();
+public SignInpage signInpage = new SignInpage();
+
 
 
     public boolean isElementPresent(WebElement element) {

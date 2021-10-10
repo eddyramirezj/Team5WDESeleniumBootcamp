@@ -46,6 +46,10 @@ public class BaseClass {
     public final String PROPERTIES_RELATIVE_PATH = "/src/main/resources/secret.properties";
     private final String PROP_FILE_PATH = ABSOLUTE_PATH + PROPERTIES_RELATIVE_PATH;
 
+
+    public String expediaExcelPath = "C:\\Users\\nahid\\IdeaProjects\\Team5WDESeleniumBootcamp\\com.expedia\\src\\test\\resources\\testData.xlsx";
+
+
     @BeforeSuite(alwaysRun = true)
     public void beforeSuiteExtentSetup(ITestContext context) {
         ExtentManager.setOutputDirectory(context);
@@ -311,6 +315,11 @@ public class BaseClass {
         return prop;
     }
 
+    public void selectCheckbox(WebElement element){
+        waitForElementToBeSelected(element);
+        if(!element.isSelected())
+            clickOnElement(element);
+    }
 
     public void clickOn(By locator, WebDriver driver, int timeout)
     {
