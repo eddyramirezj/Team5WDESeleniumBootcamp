@@ -49,7 +49,6 @@ public class BaseClass {
 
     public String expediaExcelPath = "C:\\Users\\nahid\\IdeaProjects\\Team5WDESeleniumBootcamp\\com.expedia\\src\\test\\resources\\testData.xlsx";
 
-
     @BeforeSuite(alwaysRun = true)
     public void beforeSuiteExtentSetup(ITestContext context) {
         ExtentManager.setOutputDirectory(context);
