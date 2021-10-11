@@ -3,13 +3,14 @@ package testBase;
 import base.BaseClass;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebElement;
+import pom.BuyPhones;
 
 
 public class TestBase extends BaseClass {
 
-//    public Homepage getHomepage() {
-//        return new Homepage();
-//    }
+    public BuyPhones getBuyPhones() {
+        return new BuyPhones();
+    }
 
 
     public boolean isElementPresent(WebElement element) {
