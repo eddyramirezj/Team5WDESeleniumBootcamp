@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Functional" verbose="1" >
+    <test name="Homepage" >
+        <classes>
+            <!--            <class name="testPom.TestHomepage"/>-->
+        </classes>
+    </test>
+
+    <parameter name="url" value="https://www.expedia.com/"/>
+    <parameter name="browserName" value="chrome"/>
+</suite>
