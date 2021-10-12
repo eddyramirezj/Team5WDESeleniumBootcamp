@@ -6,16 +6,13 @@ import testBase.TestBase;
 
 public class TestBoaHomePage extends TestBase {
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void testBoaLogin1(){
 
     BoaHomePage boaHomePage = new BoaHomePage();
     boaHomePage.testLogin("WXYZ", "12345#");
 
 }
-
-
-
 
     @DataProvider(name="BoaData")
     public Object[][] getLoginData(){
@@ -35,7 +32,7 @@ public class TestBoaHomePage extends TestBase {
         return obj;
     }
 
-    @Test(enabled = true, dataProvider = "BoaData")
+    @Test(enabled = false, dataProvider = "BoaData")
     public void testBoaLogin2(String s1, String s2){
 
         BoaHomePage boaHomePage = new BoaHomePage();
@@ -43,7 +40,7 @@ public class TestBoaHomePage extends TestBase {
 
     }
 
-    @Test(enabled = true, dataProvider = "BoaData", dataProviderClass = dataProviders.TestDataProviders.class)
+    @Test(enabled = false, dataProvider = "BoaData", dataProviderClass = dataProviders.TestDataProviders.class)
     public void testBoaLogin3(String s1, String s2){
 
         BoaHomePage boaHomePage = new BoaHomePage();
@@ -52,8 +49,25 @@ public class TestBoaHomePage extends TestBase {
     }
 
 
+    @Test(enabled = false)
+    public void testBoaLogin4(){
+
+        BoaHomePage boaHomePage = new BoaHomePage();
+        boaHomePage.testLogin(getProp("onlineId"), getProp("Password"));
+
+    }
+    @Test(enabled = true)
+    public void testBoaLogin5(){
+
+        BoaHomePage boaHomePage = new BoaHomePage();
+        boaHomePage.testLogin(
+                boaExcel.getCellData("loginNegativeTest",0,2 ),
+                boaExcel.getCellData("loginNegativeTest",1,2 )
 
 
+        );
+
+    }
 
 
 
