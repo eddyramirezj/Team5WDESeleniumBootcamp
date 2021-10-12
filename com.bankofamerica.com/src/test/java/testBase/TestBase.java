@@ -11,6 +11,9 @@ public class TestBase extends BaseClass {
 //        return new Homepage();
 //    }
 
+//   public BoaHomePage boaHomePage = new BoaHomePage();
+
+
 
     public boolean isElementPresent(WebElement element) {
         boolean flag = false;
