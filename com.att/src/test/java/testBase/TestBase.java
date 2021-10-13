@@ -2,12 +2,14 @@ package testBase;
 
 import base.BaseClass;
 import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 
 public class TestBase extends BaseClass {
 
-//    public Homepage getHomepage() {
+//        public Homepage getHomepage() {
 //        return new Homepage();
 //    }
 
@@ -24,5 +26,12 @@ public class TestBase extends BaseClass {
         }
 
         return flag;
+    }
+
+    public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver", "path of driver");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://www.att.com");
     }
 }
