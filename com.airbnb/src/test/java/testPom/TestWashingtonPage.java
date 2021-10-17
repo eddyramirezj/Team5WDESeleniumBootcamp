@@ -13,7 +13,7 @@ public class TestWashingtonPage extends TestBase {
 
 
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testNavigateToWashingtonPage() throws InterruptedException {
         scrollJS(300);
         Homepage homepage = new Homepage();
@@ -21,7 +21,7 @@ public class TestWashingtonPage extends TestBase {
 //        Thread.sleep(3000);
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testTitleIsCorrect() throws InterruptedException {
         Homepage homepage = new Homepage();
         homepage.goToWashingtonPage();
@@ -31,7 +31,7 @@ public class TestWashingtonPage extends TestBase {
 
 }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testPrintTitle() throws InterruptedException {
         Homepage homepage = new Homepage();
         homepage.goToWashingtonPage();
@@ -42,7 +42,7 @@ public class TestWashingtonPage extends TestBase {
     }
 
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testClickOnButton() throws InterruptedException {
         Homepage homepage = new Homepage();
         homepage.goToWashingtonPage();

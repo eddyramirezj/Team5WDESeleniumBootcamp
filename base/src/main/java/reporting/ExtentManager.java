@@ -21,12 +21,14 @@ public class ExtentManager {
             String strFormattedDate = date.toString().replace(" ", "_").replace(":", "-");
             String fileName = "TestReport_" + strFormattedDate + ".html";
 
-            extent = new ExtentReports(System.getProperty("user.dir")+"/src/main/java/reporting/testReports/" + fileName,true);
-            Reporter.log("Extent Report Directory" + resultDirectory, true);
+//            extent = new ExtentReports(System.getProperty("user.dir")+"/src/main/java/reporting/testReports/" + fileName,true);
+            extent = new ExtentReports("C:/Users/nahid/IdeaProjects/Team5WDESeleniumBootcamp/base/src/main/java/reporting/testReports/" + fileName,true);
+//            Reporter.log("Extent Report Directory: " + resultDirectory, true);
             extent.addSystemInfo("Host Name", "Maximus").addSystemInfo("Environment","QA")
-                    .addSystemInfo("User Name", "Sami Sheikh");
+                    .addSystemInfo("User Name", "Mst Salma");
 
-            extent.loadConfig(new File(System.getProperty("user.dir")+ "/src/main/resources/reporting/report-config.xml"));
+//            extent.loadConfig(new File(System.getProperty("user.dir")+ "/src/main/resources/reporting/report-config.xml"));
+            extent.loadConfig(new File( "C:/Users/nahid/IdeaProjects/Team5WDESeleniumBootcamp/base/src/main/java/reporting/report-config.xml"));
         }
         return extent;
     }

@@ -1,7 +1,9 @@
 package utilsPNT1001;
 
 //import jdk.jfr.internal.Repository;
+import base.BaseClass;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.io.FileInputStream;
@@ -9,17 +11,36 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Helpers {
+public class Helpers extends BaseClass {
+    public Helpers() {
+        PageFactory.initElements(driver, this);
+    }
 
 
+//    public String expediaORPath = absPath + "\\src\\test\\resources\\ExpediaRepo.properties";
+    public String expediaORPath = "C:\\Users\\nahid\\IdeaProjects\\Team5WDESeleniumBootcamp\\com.expedia\\src\\test\\resources\\ExpediaRepo.properties";
+    public Properties expediaOR = loadProp(expediaORPath);
 
-   static WebDriver driver;
+//   static WebDriver driver;
 //   public Properties prop = new Properties();
 //    public static FileInputStream fis;
 
+
+    public Properties loadProp(String filePathWithExtension) {
+        Properties prop = new Properties();
+        try {
+            InputStream ism = new FileInputStream(filePathWithExtension);
+            prop.load(ism);
+            ism.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return prop;
+    }
+
     public static Properties loadProperties() throws IOException {
         Properties prop = new Properties();
-        InputStream ism = new FileInputStream("src/resources/data.properties");
+        InputStream ism = new FileInputStream("src/main/resources/secret.properties");
         prop.load(ism);
         ism.close();
         return prop;
@@ -29,15 +50,16 @@ public class Helpers {
 
     public static Properties loadProperties(String fileName) throws IOException {
         Properties prop = new Properties();
-        InputStream ism = new FileInputStream("src/main/java/base/resources/" + fileName + ".properties");
+        InputStream ism = new FileInputStream("src/main/resources/" + fileName + ".properties");
         prop.load(ism);
         ism.close();
         return prop;
     }
+
     public static Properties OR;
     {
         try {
-            OR = loadProperties("Repository");
+            OR = loadProperties("secret");
         } catch (IOException e) {
             e.printStackTrace();
         }

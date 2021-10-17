@@ -8,7 +8,7 @@
     </listeners>
     <test name="Homepage" >
         <classes>
-<!--            <class name="testPom.TestHomepage"/>-->
+            <class name="testPom.TestWashingtonPage"/>
             <class name="testPom.TestUnitTester"/>
 
         </classes>

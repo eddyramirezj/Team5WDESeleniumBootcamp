@@ -101,28 +101,28 @@ public class BaseClass {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
-//    @AfterMethod
-//    public void extentFlush(ITestResult result) {
-//        ExtentTestManager.getTest().getTest().setStartedTime(getTime(result.getStartMillis()));
-//        ExtentTestManager.getTest().getTest().setEndedTime(getTime(result.getEndMillis()));
-//
-//        for (String group : result.getMethod().getGroups()) {
-//            ExtentTestManager.getTest().assignCategory(group);
-//        }
-//
-//        if (result.getStatus() == ITestResult.FAILURE) {
-//            ExtentTestManager.getTest().log(LogStatus.FAIL, "TEST CASE FAILED: " + result.getName());
-//            ExtentTestManager.getTest().log(LogStatus.FAIL, result.getThrowable());
-//            captureScreenshot(driver, result.getName());
-//        } else if (result.getStatus() == ITestResult.SKIP) {
-//            ExtentTestManager.getTest().log(LogStatus.SKIP, "TEST CASE SKIPPED: " + result.getName());
-//        } else if (result.getStatus() == ITestResult.SUCCESS) {
-//            ExtentTestManager.getTest().log(LogStatus.PASS, "TEST CASE PASSED: " + result.getName());
-//        }
-//
-//        ExtentTestManager.endTest();
-//        extent.flush();
-//    }
+  /*  @AfterMethod
+    public void extentFlush(ITestResult result) {
+        ExtentTestManager.getTest().getTest().setStartedTime(getTime(result.getStartMillis()));
+        ExtentTestManager.getTest().getTest().setEndedTime(getTime(result.getEndMillis()));
+
+        for (String group : result.getMethod().getGroups()) {
+            ExtentTestManager.getTest().assignCategory(group);
+        }
+
+        if (result.getStatus() == ITestResult.FAILURE) {
+            ExtentTestManager.getTest().log(LogStatus.FAIL, "TEST CASE FAILED: " + result.getName());
+            ExtentTestManager.getTest().log(LogStatus.FAIL, result.getThrowable());
+            captureScreenshot(driver, result.getName());
+        } else if (result.getStatus() == ITestResult.SKIP) {
+            ExtentTestManager.getTest().log(LogStatus.SKIP, "TEST CASE SKIPPED: " + result.getName());
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            ExtentTestManager.getTest().log(LogStatus.PASS, "TEST CASE PASSED: " + result.getName());
+        }
+
+        ExtentTestManager.endTest();
+        extent.flush();
+    }*/
 
     @AfterMethod
     public void driverClose() {
@@ -153,25 +153,25 @@ public class BaseClass {
         return driver;
     }
 
-//    private Date getTime(long millis) {
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(millis);
-//        return calendar.getTime();
-//    }
+    private Date getTime(long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar.getTime();
+    }
 
-//    private static void captureScreenshot(WebDriver driver, String testName) {
-//        String fileName = testName + ".png";
-//        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//        File newScreenshotFile = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator +
-//                "main" + File.separator + "java" + File.separator + "reporting" + File.separator + fileName);
-//
-//        try {
-//            FileHandler.copy(screenshot, newScreenshotFile);
-//            System.out.println("SCREENSHOT TAKEN");
-//        } catch (Exception e) {
-//            System.out.println("ERROR TAKING SCREENSHOT: " + e.getMessage());
-//        }
-//    }
+    private static void captureScreenshot(WebDriver driver, String testName) {
+        String fileName = testName + ".png";
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File newScreenshotFile = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator +
+                "main" + File.separator + "java" + File.separator + "reporting" + File.separator + fileName);
+
+        try {
+            FileHandler.copy(screenshot, newScreenshotFile);
+            System.out.println("SCREENSHOT TAKEN");
+        } catch (Exception e) {
+            System.out.println("ERROR TAKING SCREENSHOT: " + e.getMessage());
+        }
+    }
 
     /*
     Selenium Helper Methods
@@ -292,15 +292,10 @@ public class BaseClass {
 
 
     /******************    The below helper methods were added by PNT-1001     *******************************/
-    public static final String absPath = System.getProperty("user.dir");
-    //    C:\Users\nahid\IdeaProjects\Team5WDESeleniumBootcamp\com.expedia
 
-
-    /*public String airbnbORPath = absPath + "\\src\\test\\resources\\airbnbRepo.properties";
-    public Properties airbnbOR = loadProp(airbnbORPath);*/
-//    C:\Users\nahid\IdeaProjects\Team5WDESeleniumBootcamp\com.expedia\src\test\resources\ExpediaRepo.properties
-    public String expediaORPath = absPath + "\\src\\test\\resources\\ExpediaRepo.properties";
-    public Properties expediaOR = loadProp(expediaORPath);
+//    public static final String absPath = System.getProperty("user.dir");
+//    public String expediaORPath = absPath + "\\src\\test\\resources\\ExpediaRepo.properties";
+//    public Properties expediaOR = loadProp(expediaORPath);
 
     public Properties loadProp(String filePathWithExtension) {
         Properties prop = new Properties();

@@ -4,12 +4,14 @@ import base.BaseClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pom.Homepage;
+import utilsPNT1001.Helpers;
 
 import java.util.Calendar;
 import java.util.List;
 
 public class expediaUtils extends BaseClass {
     Homepage homepage = new Homepage();
+    Helpers helpers = new Helpers();
 
     /** ***************************************** Method pickCalendarDate started **************************************/
 
@@ -125,7 +127,7 @@ public class expediaUtils extends BaseClass {
     /** ***************************************** Method readDayOfTheDate started **************************************/
 
     public String readDayOfTheDate(String mm_dd_yyyy){
-        String date = expediaOR.getProperty(mm_dd_yyyy);
+        String date = helpers.expediaOR.getProperty(mm_dd_yyyy);
         String[] date_ = date.split("/");
 //        System.out.println(date_[1]);
         return date_[1];
@@ -134,7 +136,7 @@ public class expediaUtils extends BaseClass {
     /** ***************************************** Method readYearOfTheDate started **************************************/
 
     public String readYearOfTheDate(String mm_dd_yyyy){
-        String date = expediaOR.getProperty(mm_dd_yyyy);
+        String date = helpers.expediaOR.getProperty(mm_dd_yyyy);
         String[] date_ = date.split("/");
 //        System.out.println(date_[2]);
         return date_[2];
@@ -144,7 +146,7 @@ public class expediaUtils extends BaseClass {
 
 
     public String readMonthOfTheDate(String mm_dd_yyyy){
-        String date = expediaOR.getProperty(mm_dd_yyyy);
+        String date = helpers.expediaOR.getProperty(mm_dd_yyyy);
         String[] date_ = date.split("/");
 
 //        System.out.println(getMonthName(Integer.parseInt(date_[0])));

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import pnt1001Utils.ExcelReader;
+import utilsPNT1001.Helpers;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -17,7 +18,7 @@ public class Homepage extends BaseClass {
         PageFactory.initElements(driver, this);
     }
 
-
+Helpers helpers = new Helpers();
 
     @FindBy(xpath = "//button[@id='d1-btn']")
     public WebElement checkInButton;
@@ -201,8 +202,8 @@ public void goToSignInpage(){
 
         clickOnElement(checkInButton);
 
-        pickCalendarDate(firstMonthYearTitle,expediaOR.getProperty("checkInDate"));
-        pickCalendarDate(firstMonthYearTitle,expediaOR.getProperty("checkOutDate"));
+        pickCalendarDate(firstMonthYearTitle,helpers.expediaOR.getProperty("checkInDate"));
+        pickCalendarDate(firstMonthYearTitle,helpers.expediaOR.getProperty("checkOutDate"));
 
 
         clickOnElement(doneButton);
@@ -218,7 +219,7 @@ public void goToSignInpage(){
     public void selectDate3() {
 
         String calendarDate;
-        String checkInDate = expediaOR.getProperty("checkInDate");
+        String checkInDate = helpers.expediaOR.getProperty("checkInDate");
         String[] checkInDate_ = checkInDate.split("/");
 
         String monthToBeSelected = getMonthName(Integer.parseInt(checkInDate_[0]));
@@ -226,7 +227,7 @@ public void goToSignInpage(){
         String yearToBeSelected = checkInDate_[2];
 
 
-        String checkOutDate = expediaOR.getProperty("checkOutDate");
+        String checkOutDate = helpers.expediaOR.getProperty("checkOutDate");
         String[] checkOutDate_ = checkOutDate.split("/");
 
         String checkOutMonthToBeSelected = getMonthName(Integer.parseInt(checkOutDate_[0]));
@@ -347,7 +348,7 @@ clickOnElement(searchButton);
     public void selectDate2() {
 
         String calendarDate;
-        String checkInDate = expediaOR.getProperty("checkInDate");
+        String checkInDate = helpers.expediaOR.getProperty("checkInDate");
         String[] checkInDate_ = checkInDate.split("/");
 
         String monthToBeSelected = getMonthName(Integer.parseInt(checkInDate_[0]));
@@ -355,7 +356,7 @@ clickOnElement(searchButton);
         String yearToBeSelected = checkInDate_[2];
 
 
-        String checkOutDate = expediaOR.getProperty("checkOutDate");
+        String checkOutDate = helpers.expediaOR.getProperty("checkOutDate");
         String[] checkOutDate_ = checkOutDate.split("/");
 
         String checkOutMonthToBeSelected = getMonthName(Integer.parseInt(checkOutDate_[0]));
@@ -466,7 +467,7 @@ clickOnElement(searchButton);
     public void selectDate1() {
 
         String calendarDate;
-        String checkInDate = expediaOR.getProperty("checkInDate");
+        String checkInDate = helpers.expediaOR.getProperty("checkInDate");
         String[] checkInDate_ = checkInDate.split("/");
 
         String monthToBeSelected = getMonthName(Integer.parseInt(checkInDate_[0]));
@@ -529,7 +530,7 @@ clickOnElement(searchButton);
 
     public void selectDate() {
         String calendarDate;
-        String checkInDate = expediaOR.getProperty("checkInDate");
+        String checkInDate = helpers.expediaOR.getProperty("checkInDate");
         String[] checkInDate_ = checkInDate.split("/");
 
         String dateToBeSelected = checkInDate_[1];

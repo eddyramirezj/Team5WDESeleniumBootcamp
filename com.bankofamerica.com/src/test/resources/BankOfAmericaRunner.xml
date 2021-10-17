@@ -1,6 +1,8 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="Functional" verbose="1" >
+
+
     <test name="BoaHomePage" >
         <classes>
                         <class name="testBoaPom.TestBoaHomePage"/>
@@ -9,4 +11,6 @@
 
     <parameter name="url" value="https://www.bankofamerica.com/"/>
     <parameter name="browserName" value="chrome"/>
+    <parameter name="ID" value="Test_ID"/>
+    <parameter name="Password" value="Test_Password"/>
 </suite>

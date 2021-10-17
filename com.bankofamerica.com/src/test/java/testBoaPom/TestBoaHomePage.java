@@ -1,18 +1,33 @@
 package testBoaPom;
 
+import com.beust.jcommander.Parameter;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import testBase.TestBase;
 
+import java.util.Hashtable;
+
 public class TestBoaHomePage extends TestBase {
 
+    /****** Following test cases are to test INVALID LOGIN using 7 different approaches: *****/
+
     @Test(enabled = false)
-    public void testBoaLogin1(){
+    public void testInvalidLoginApproach1(){
 
     BoaHomePage boaHomePage = new BoaHomePage();
     boaHomePage.testLogin("WXYZ", "12345#");
 
 }
+
+    @Test(enabled = true)
+    @Parameters({"ID", "Password"})
+    public void testInvalidLoginApproach2(String ID, String Password){
+
+        BoaHomePage boaHomePage = new BoaHomePage();
+        boaHomePage.testLogin(ID, Password);
+
+    }
 
     @DataProvider(name="BoaData")
     public Object[][] getLoginData(){
@@ -33,7 +48,7 @@ public class TestBoaHomePage extends TestBase {
     }
 
     @Test(enabled = false, dataProvider = "BoaData")
-    public void testBoaLogin2(String s1, String s2){
+    public void testInvalidLoginApproach3(String s1, String s2){
 
         BoaHomePage boaHomePage = new BoaHomePage();
         boaHomePage.testLogin(s1,s2);
@@ -41,7 +56,7 @@ public class TestBoaHomePage extends TestBase {
     }
 
     @Test(enabled = false, dataProvider = "BoaData", dataProviderClass = dataProviders.TestDataProviders.class)
-    public void testBoaLogin3(String s1, String s2){
+    public void testInvalidLoginApproach4(String s1, String s2){
 
         BoaHomePage boaHomePage = new BoaHomePage();
         boaHomePage.testLogin(s1,s2);
@@ -50,14 +65,14 @@ public class TestBoaHomePage extends TestBase {
 
 
     @Test(enabled = false)
-    public void testBoaLogin4(){
+    public void testInvalidLoginApproach5(){
 
         BoaHomePage boaHomePage = new BoaHomePage();
         boaHomePage.testLogin(getProp("onlineId"), getProp("Password"));
 
     }
-    @Test(enabled = true)
-    public void testBoaLogin5(){
+    @Test(enabled = false)
+    public void testInvalidLoginApproach6(){
 
         BoaHomePage boaHomePage = new BoaHomePage();
         boaHomePage.testLogin(
@@ -66,6 +81,14 @@ public class TestBoaHomePage extends TestBase {
 
 
         );
+
+    }
+
+    @Test(enabled = false, dataProvider="excelData", dataProviderClass = dataProviders.TestDataProviders.class)
+    public void testInvalidLoginApproach7(Hashtable<String, String> data){
+
+        BoaHomePage boaHomePage = new BoaHomePage();
+        boaHomePage.testLogin(data.get("OnlineId"),data.get("Password"));
 
     }
 

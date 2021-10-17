@@ -37,7 +37,7 @@ public class TestSignInpage extends TestBase {
 
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testLoginFunctionality(){
         Homepage homepage = new Homepage();
         homepage.goToSignInpage();

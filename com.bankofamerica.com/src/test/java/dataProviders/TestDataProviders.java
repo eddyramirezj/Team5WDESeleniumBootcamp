@@ -3,11 +3,14 @@ package dataProviders;
 
 import base.MySQLConnection;
 import org.testng.annotations.DataProvider;
+import testBase.TestBase;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.Hashtable;
 
-public class TestDataProviders {
+public class TestDataProviders extends TestBase {
 
 
     @DataProvider(name="MySQLDataProvider")
@@ -34,6 +37,40 @@ public class TestDataProviders {
 
 
         return obj;
+    }
+
+    @DataProvider(name = "excelData")
+    public Object[][] getData(Method m) {
+
+        String sheetName = m.getName();
+        System.out.println(sheetName);
+        int rows = boaExcel.getRowCount(sheetName);
+        System.out.println(rows);
+        int cols = boaExcel.getColumnCount(sheetName);
+        System.out.println("columns: " + cols);
+
+/***        Object[][] data = new Object[nInvocation][nParameters]; */
+        Object[][] data = new Object[rows - 1][1];
+
+        Hashtable<String, String> table = null;
+
+        for (int rowNum = 2; rowNum <= rows; rowNum++) {
+
+            table = new Hashtable<String, String>();
+
+            for (int colNum = 0; colNum < cols; colNum++) {
+
+
+                table.put(boaExcel.getCellData(sheetName, colNum, 1), boaExcel.getCellData(sheetName, colNum, rowNum));
+                data[rowNum - 2][0] = table;
+
+
+            }
+
+        }
+
+        return data;
+
     }
 
 

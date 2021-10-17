@@ -11,7 +11,7 @@ public class TestHomepage extends TestBase {
 
 
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testReadExcel1(){
         Homepage homepage = new Homepage();
         homepage.getExcelData1();
@@ -19,7 +19,7 @@ public class TestHomepage extends TestBase {
 
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testStaySearchFunction(){
         Homepage homepage = new Homepage();
         homepage.staySearchFunction();
@@ -29,7 +29,7 @@ public class TestHomepage extends TestBase {
 
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testDatePicker5(){
         Homepage homepage = new Homepage();
         homepage.selectDate4();
@@ -39,7 +39,7 @@ public class TestHomepage extends TestBase {
 
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testDatePicker4(){
         Homepage homepage = new Homepage();
         homepage.selectDate3();
@@ -50,19 +50,19 @@ public class TestHomepage extends TestBase {
     }
 
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testDatePicker3(){
         Homepage homepage = new Homepage();
         homepage.selectDate2();
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testDatePicker2(){
         Homepage homepage = new Homepage();
         homepage.selectDate1();
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testDatePicker1(){
         Homepage homepage = new Homepage();
         homepage.selectDate();

@@ -6,12 +6,15 @@ import org.openqa.selenium.WebElement;
 import pom.Homepage;
 import pom.SignInpage;
 
+import java.util.Properties;
+
 
 public class TestBase extends BaseClass {
 
 //    C:\Users\nahid\IdeaProjects\Team5WDESeleniumBootcamp\com.expedia
 
-
+//    public String expediaORPath = absPath + "\\src\\test\\resources\\ExpediaRepo.properties";
+//    public Properties expediaOR = loadProp(expediaORPath);
 
 //    public Homepage getHomepage() {
 //        return new Homepage();
