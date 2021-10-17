@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilsPNT1001.AlertHelper;
+import utilsPNT1001.ComboBoxHelper;
 import utilsPNT1001.WindowHelper;
 
 public class AttHomePage extends BaseClass {
@@ -63,6 +64,28 @@ public class AttHomePage extends BaseClass {
     @FindBy(xpath ="//h1[@id='intentModalHeader']")
     public WebElement dialogBoxText;
 
+    @FindBy(xpath ="//span[@id='z1-profile-text']")
+    public WebElement accountLink;
+
+    @FindBy(partialLinkText ="Sign in")
+    public WebElement signInLink;
+
+    @FindBy(xpath ="//input[@id='userID']")
+    public WebElement userIdField;
+
+    @FindBy(xpath ="//input[@id='password']")
+    public WebElement passwordField;
+
+    @FindBy(xpath ="//button[@id='signin']")
+    public WebElement signInButton;
+
+    @FindBy(xpath ="//div[@id='errorDescArea']")
+    public WebElement signInErrorMsg1;
+
+    @FindBy(xpath ="//div[@class='bad-request-div']/h1")
+    public WebElement signInErrorMsg2;
+
+
 
 
 public String cellPhoneSearch(String searchText){
@@ -101,6 +124,15 @@ public String cellPhoneSearch(String searchText){
         clickOnElement(continueToCartButton);
 
 
+    }
+
+
+    public void accountSignIn(String userName, String password) {
+    clickOnElement(accountLink);
+    clickOnElement(signInLink);
+    sendKeysToInput(userIdField,userName);
+    sendKeysToInput(passwordField,password);
+    clickOnElement(signInButton);
 
     }
 }

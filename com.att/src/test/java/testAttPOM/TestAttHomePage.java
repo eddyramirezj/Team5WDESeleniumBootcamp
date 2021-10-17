@@ -42,7 +42,14 @@ public class TestAttHomePage extends TestBase {
         verifyTrue(attHomePage.dialogBoxText.getText().toLowerCase().contains("what do you want"));
 
     }
+    @Test(enabled = true)
+    public void testAccountSignIn(){
+        AttHomePage attHomePage = new AttHomePage();
+        attHomePage.accountSignIn("TestUser1", "TestPassword1");
+//        verifyTrue(attHomePage.signInErrorMsg.getText().toLowerCase().contains("reset your password"));
+        verifyTrue(attHomePage.signInErrorMsg2.getText().toLowerCase().contains("something"));
 
+    }
 
 
 
