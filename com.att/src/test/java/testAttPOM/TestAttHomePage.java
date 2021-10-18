@@ -1,6 +1,7 @@
 package testAttPOM;
 
 import attPOM.AttHomePage;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import testBase.TestBase;
@@ -47,29 +48,79 @@ public class TestAttHomePage extends TestBase {
 
     }
     @Test(enabled = false)
-    public void testAccountSignIn(){
+    public void testInvalidSignInApproach1(){
         AttHomePage attHomePage = new AttHomePage();
         attHomePage.accountSignIn("TestUser1", "TestPassword1");
 //        verifyTrue(attHomePage.signInErrorMsg.getText().toLowerCase().contains("reset your password"));
         verifyTrue(attHomePage.signInErrorMsg2.getText().toLowerCase().contains("something"));
-
     }
 
-    @Test(enabled = false, dataProvider = "loginData", dataProviderClass = utilsPNT1001.TestDataProviders.class)
-    public void testInvalidSignInApproach1(String userId, String password){
+    @Test(enabled = false)
+    public void testInvalidSignInApproach2(){
+        AttHomePage attHomePage = new AttHomePage();
+        attHomePage.accountSignIn(getProp("userId"), getProp("password"));
+    }
+
+    @Parameters({"userId", "password"})
+    @Test(enabled = false)
+    public void testInvalidSignInApproach3(String userId, String password){
+        AttHomePage attHomePage = new AttHomePage();
+        attHomePage.accountSignIn(userId, password);
+        verifyTrue(attHomePage.signInErrorMsg2.getText().toLowerCase().contains("something"));
+    }
+
+    @Test(enabled = true, dataProvider = "sameClassDP_LoginData")
+    public void testInvalidSignInApproach4(String userId, String password){
         AttHomePage attHomePage = new AttHomePage();
         attHomePage.accountSignIn(userId, password);
         verifyTrue(attHomePage.signInErrorMsg2.getText().toLowerCase().contains("something"));
 
     }
 
-    @Test(enabled = true, dataProvider = "excelData", dataProviderClass = utilsPNT1001.TestDataProviders.class)
-    public void testInvalidSignInApproach2(Hashtable<String, String> data){
+    @DataProvider(name="sameClassDP_LoginData")
+    public Object[][] getLoginData(){
+
+        Object[][] obj = new Object[3][2];
+
+        obj[0][0] = "userIdSameClassDP1";
+        obj[0][1] = "passwordSameClassDP1";
+
+        obj[1][0] = "userIdSameClassDP2";
+        obj[1][1] = "passwordSameClassDP2#";
+
+        obj[2][0] = "userIdSameClassDP3";
+        obj[2][1] = "passwordSameClassDP3#";
+
+
+        return obj;
+    }
+
+    @Test(enabled = false, dataProvider = "loginData", dataProviderClass = utilsPNT1001.TestDataProviders.class)
+    public void testInvalidSignInApproach5(String userId, String password){
+        AttHomePage attHomePage = new AttHomePage();
+        attHomePage.accountSignIn(userId, password);
+        verifyTrue(attHomePage.signInErrorMsg2.getText().toLowerCase().contains("something"));
+
+    }
+
+    @Test(enabled = false)
+    public void testInvalidSignInApproach6(){
+        AttHomePage attHomePage = new AttHomePage();
+        TestDataProviders testDataProviders = new TestDataProviders();
+        attHomePage.accountSignIn(
+                testDataProviders.attExcel.getCellData("testInvalidSignInApproach2",0,3 ),
+                testDataProviders.attExcel.getCellData("testInvalidSignInApproach2",1,3 )
+
+
+        );
+    }
+
+    @Test(enabled = false, dataProvider = "excelData", dataProviderClass = utilsPNT1001.TestDataProviders.class)
+    public void testInvalidSignInApproach7(Hashtable<String, String> data){
 //        NOTE: this testMethod name i.e. "testInvalidSignInApproach2" should be sheet name of the exel file.
         AttHomePage attHomePage = new AttHomePage();
         attHomePage.accountSignIn(data.get("userId"),data.get("password"));
         verifyTrue(attHomePage.signInErrorMsg2.getText().toLowerCase().contains("something"));
-
     }
 
 

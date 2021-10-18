@@ -6,8 +6,13 @@
             <!--            <class name="testPom.TestHomepage"/>-->
                         <class name="testAttPOM.TestAttHomePage"/>
         </classes>
+
+  <!--      <parameter name="userId" value="userId_TestLevelParameter"/>
+        <parameter name="password" value="password_TestLevelParameter"/>-->
     </test>
 
     <parameter name="url" value="https://www.att.com/"/>
     <parameter name="browserName" value="chrome"/>
+    <parameter name="userId" value="userId_SuiteLevelParameter"/>
+    <parameter name="password" value="password_SuiteLevelParameter"/>
 </suite>
