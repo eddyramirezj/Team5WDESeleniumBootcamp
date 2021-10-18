@@ -1,9 +1,13 @@
 package testAttPOM;
 
 import attPOM.AttHomePage;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import testBase.TestBase;
 import utilsPNT1001.Helpers;
+import utilsPNT1001.TestDataProviders;
+
+import java.util.Hashtable;
 
 public class TestAttHomePage extends TestBase {
     Helpers helpers = new Helpers();
@@ -42,7 +46,7 @@ public class TestAttHomePage extends TestBase {
         verifyTrue(attHomePage.dialogBoxText.getText().toLowerCase().contains("what do you want"));
 
     }
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void testAccountSignIn(){
         AttHomePage attHomePage = new AttHomePage();
         attHomePage.accountSignIn("TestUser1", "TestPassword1");
@@ -51,6 +55,22 @@ public class TestAttHomePage extends TestBase {
 
     }
 
+    @Test(enabled = false, dataProvider = "loginData", dataProviderClass = utilsPNT1001.TestDataProviders.class)
+    public void testInvalidSignInApproach1(String userId, String password){
+        AttHomePage attHomePage = new AttHomePage();
+        attHomePage.accountSignIn(userId, password);
+        verifyTrue(attHomePage.signInErrorMsg2.getText().toLowerCase().contains("something"));
+
+    }
+
+    @Test(enabled = true, dataProvider = "excelData", dataProviderClass = utilsPNT1001.TestDataProviders.class)
+    public void testInvalidSignInApproach2(Hashtable<String, String> data){
+//        NOTE: this testMethod name i.e. "testInvalidSignInApproach2" should be sheet name of the exel file.
+        AttHomePage attHomePage = new AttHomePage();
+        attHomePage.accountSignIn(data.get("userId"),data.get("password"));
+        verifyTrue(attHomePage.signInErrorMsg2.getText().toLowerCase().contains("something"));
+
+    }
 
 
 
